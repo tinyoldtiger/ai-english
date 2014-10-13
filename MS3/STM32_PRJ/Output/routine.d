@@ -1,0 +1,16 @@
+..\..\output\routine.o: ..\..\..\SourceFile\routine.c
+..\..\output\routine.o: ..\..\..\SourceFile\common.h
+..\..\output\routine.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdio.h
+..\..\output\routine.o: ..\..\..\SourceFile\type.h
+..\..\output\routine.o: ..\..\..\SourceFile\message.h
+..\..\output\routine.o: ..\..\..\SourceFile\mcu.h
+..\..\output\routine.o: ..\..\..\SourceFile\mcu_ext.h
+..\..\output\routine.o: ..\..\..\SourceFile\timer.h
+..\..\output\routine.o: ..\..\..\SourceFile\uart.h
+..\..\output\routine.o: ..\..\..\SourceFile\trace.h
+..\..\output\routine.o: ..\..\..\SourceFile\key.h
+..\..\output\routine.o: ..\..\..\SourceFile\flash.h
+..\..\output\routine.o: ..\..\..\SourceFile\routine.h
+..\..\output\routine.o: ..\..\..\SourceFile\utility.h
+..\..\output\routine.o: ..\..\..\SourceFile\rtc.h
+..\..\output\routine.o: ..\..\..\SourceFile\mmi.h

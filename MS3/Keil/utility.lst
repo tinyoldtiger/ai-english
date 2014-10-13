@@ -1,0 +1,181 @@
+C51 COMPILER V9.01   UTILITY                                                               10/11/2014 14:44:39 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE UTILITY
+OBJECT MODULE PLACED IN .\utility.obj
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE ..\SourceFile\utility.c BROWSE DEBUG OBJECTEXTEND PRINT(.\utility.lst) OBJE
+                    -CT(.\utility.obj)
+
+line level    source
+
+   1          
+   2          /***************************************************************************************
+   3          ****************************************************************************************
+   4          * FILE          : utility.c
+   5          * Description   : 
+   6          *                         
+   7          * Copyright (c) 2003~2007 by WANG SHAOWEI. All Rights Reserved.
+   8          * 
+   9          * History:
+  10          * Version               Name                    Date                    Description
+  11             1.0          Wang Shaowei    2003/07/16      Initial Version (MCU System)
+  12             2.0          Wang Shaowei    2005/06/01      MS2
+  13             3.0          Wang Shaowei    2007/03/11      MS3
+  14             
+  15          ****************************************************************************************
+  16          ****************************************************************************************/
+  17          
+  18          
+  19          #include <intrins.h>
+  20          
+  21          #include "common.h" 
+  22          
+  23          #include "utility.h"
+  24          
+  25          
+  26          
+  27          
+  28          /*==================================================================
+  29          * Function      : uty_delay
+  30          * Description   : general purpose  function for delay
+  31          * Input Para    : U16 u16Val    : delay time
+  32          * Output Para   : void
+  33          * Return Value: void
+  34          ==================================================================*/
+  35          void uty_delay(U16 u16Val)
+  36          {
+  37   1              while(u16Val--)
+  38   1              {
+  39   2              #ifdef SPEEDUP
+  40   2      
+  41   2                      _nop_();
+  42   2                      _nop_();
+  43   2                      _nop_();
+  44   2              #else
+                              _nop_();
+                      #endif
+  47   2              }
+  48   1      }
+  49          
+  50          
+  51          /*==================================================================
+  52          * Function      : uty_dec2bcd
+  53          * Description   : 2 digit decimal number to bcd, such as 12 to 0x12
+  54          * Input Para    : U8 val                : hex number
+C51 COMPILER V9.01   UTILITY                                                               10/11/2014 14:44:39 PAGE 2   
+
+  55          * Output Para   : void
+  56          * Return Value: U8              : bcd number
+  57          ==================================================================*/
+  58          U8 uty_dec2bcd(U8 val)
+  59          {
+  60   1              if(val < 100)
+  61   1              {
+  62   2                      return(((val / 10) << 4)+ (val % 10));
+  63   2              }
+  64   1              else
+  65   1              {
+  66   2                      ERRprintf("uty_dec2bcd\n");
+  67   2                      return 0xff;
+  68   2              }
+  69   1      }
+  70          
+  71          
+  72          /*==================================================================
+  73          * Function      : uty_bcd2dec
+  74          * Description   : bcd to decimal number, such as 0x12 to 12
+  75          * Input Para    : U8 val                : bcd number
+  76          * Output Para   : void
+  77          * Return Value: U8              : hex number
+  78          ==================================================================*/
+  79          U8 uty_bcd2dec(U8 val)
+  80          {
+  81   1              return(((val >> 4) * 10) + (val & 0x0F));
+  82   1      }
+  83          
+  84          U8 uty_hex2bcd(U8 val)
+  85          {               
+  86   1              return(((val / 10) << 4) | (val % 10));
+  87   1      }
+  88          
+  89          /*==================================================================
+  90          * Function      : uty_hex_to_ascii
+  91          * Description   : Convert number to ASCII 
+  92          * Input Para    : U8 val                : number
+  93          * Output Para   : void
+  94          * Return Value: U8              : ascii code
+  95          ==================================================================*/
+  96          U8 uty_hex2ascii(U8 val)
+  97          {
+  98   1              if(val < 10)
+  99   1              {
+ 100   2                      return('0' + val);
+ 101   2              }
+ 102   1              else if(val < 16)
+ 103   1              {
+ 104   2                      return('A' - 10 + val);
+ 105   2              }
+ 106   1              else
+ 107   1              {
+ 108   2                      ERRprintf("uty_hex_to_ascii\n");
+ 109   2                      return 0xff;
+ 110   2              }       
+ 111   1      }
+ 112          
+ 113          
+ 114          /*==================================================================
+ 115          * Function      : uty_ascii_to_hex
+ 116          * Description   : Convert ASCII to number
+C51 COMPILER V9.01   UTILITY                                                               10/11/2014 14:44:39 PAGE 3   
+
+ 117          * Input Para    : U8 val                : ascii code
+ 118          * Output Para   : void
+ 119          * Return Value: U8              : number
+ 120          ==================================================================*/
+ 121          U8 uty_ascii2hex(U8 val)
+ 122          {
+ 123   1              if(val <= '9')
+ 124   1              {
+ 125   2                      if(val >= '0')
+ 126   2                      {
+ 127   3                              return(val - '0');
+ 128   3                      }
+ 129   2              }
+ 130   1              else if(val <= 'F')
+ 131   1              {
+ 132   2                      if(val >= 'A')
+ 133   2                      {
+ 134   3                              return(val - 'A' + 10);
+ 135   3                      }
+ 136   2              }
+ 137   1              else if(val <= 'f')
+ 138   1              {
+ 139   2                      if(val >= 'a')
+ 140   2                      {
+ 141   3                              return(val - 'a' + 10);
+ 142   3                      }
+ 143   2              }
+ 144   1              else
+ 145   1              {
+ 146   2                      ERRprintf("uty_ascii_to_hex\n");
+ 147   2                      return 0xff;
+ 148   2              }
+ 149   1      }
+ 150          
+ 151          
+ 152          
+*** WARNING C291 IN LINE 149 OF ..\SOURCEFILE\UTILITY.C: not every exit path returns a value
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    227    ----
+   CONSTANT SIZE    =     61    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)

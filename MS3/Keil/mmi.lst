@@ -1,0 +1,237 @@
+C51 COMPILER V9.01   MMI                                                                   10/11/2014 14:44:40 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE MMI
+OBJECT MODULE PLACED IN .\mmi.obj
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE ..\SourceFile\mmi.c BROWSE DEBUG OBJECTEXTEND PRINT(.\mmi.lst) OBJECT(.\mmi
+                    -.obj)
+
+line level    source
+
+   1          
+   2          /***************************************************************************************
+   3          ****************************************************************************************
+   4          * FILE          : mmi.c
+   5          * Description   : man machine interface
+   6          *                         
+   7          * Copyright (c) 2003~2007 by WANG SHAOWEI. All Rights Reserved.
+   8          * 
+   9          * History:
+  10          * Version               Name                    Date                    Description
+  11             1.0          Wang Shaowei    2003/07/16      Initial Version (MCU System)
+  12             2.0          Wang Shaowei    2005/06/01      MS2
+  13             3.0          Wang Shaowei    2007/03/11      MS3
+  14             4.0          Wang Shaowei    2011/02/01      MS4
+  15             
+  16          ****************************************************************************************
+  17          ****************************************************************************************/
+  18          
+  19          
+  20          #include "common.h"
+  21          
+  22          #define Key_BackSpace   0x08
+  23          
+  24          Function idata fMMIProc;
+  25          
+  26          bool bTimer = FALSE;
+  27          
+  28          
+  29          static void mmi_idle_setup(void);
+  30          static void mmi_idle_proc(void);
+  31          static void mmi_designeasy_setup(void);
+  32          static void mmi_designeasy_proc(void);
+  33          static void mmi_huayu_setup(void);
+  34          static void mmi_huayu_proc(void);
+  35          static void display_time_setup(void);
+  36          static void display_time_proc(void);
+  37          
+  38          /*==================================================================
+  39          * Function      : mmi_init
+  40          * Description   : init mmi
+  41          * Input Para    : void
+  42          * Output Para   : void
+  43          * Return Value: void
+  44          ==================================================================*/
+  45          void mmi_init(void)
+  46          {
+  47   1              mmi_idle_setup();
+  48   1              fMMIProc = mmi_idle_proc;
+  49   1      }
+  50          
+  51          
+  52          
+  53          void mmi_idle_setup(void)
+  54          {
+C51 COMPILER V9.01   MMI                                                                   10/11/2014 14:44:40 PAGE 2   
+
+  55   1              uprintf("\nMS3.21 Start\n");
+  56   1              uprintf("\nHardware Plat:MCU 51Series\n");
+  57   1              uprintf("\nSoftware Version:MS3.21-2011.2.14\n");
+  58   1              uprintf("\Author: wangsw\n");
+  59   1              uprintf("\Blog: www.eefocus\\wangsw\\blog\n");
+  60   1              uprintf("\n\n");
+  61   1              
+  62   1              uprintf("1:创易电子\n");
+  63   1              uprintf("2:华禹工控\n");
+  64   1              uprintf("3:显示时间\n");
+  65   1              
+  66   1              uprintf("Menu = idle\n");
+  67   1              uprintf("Please press 1 , 2 or 3  to select menu\n");
+  68   1      }
+  69          
+  70          void mmi_idle_proc(void)
+  71          {
+  72   1              switch(KeyStore)
+  73   1              {
+  74   2                      case '1':
+  75   2                              mmi_designeasy_setup();
+  76   2                              fMMIProc = mmi_designeasy_proc;
+  77   2                              break;
+  78   2                      case '2':
+  79   2                              mmi_huayu_setup();
+  80   2                              fMMIProc = mmi_huayu_proc;
+  81   2                              break;
+  82   2                      case '3':
+  83   2                              display_time_setup();
+  84   2                              fMMIProc = display_time_proc;
+  85   2                              break;
+  86   2                              
+  87   2              }
+  88   1              
+  89   1      }
+  90          
+  91          
+  92          void display_time_setup(void)
+  93          {
+  94   1              uprintf("\nMS3.21 Start\n");
+  95   1              uprintf("\nHardware Plat:MCU 51Series\n");
+  96   1              uprintf("\nSoftware Version:MS3.21-2011.2.14\n");
+  97   1              uprintf("\Author: wangsw\n");
+  98   1              uprintf("\Blog: www.eefocus\\wangsw\\blog\n");
+  99   1              uprintf("\n\n");
+ 100   1      
+ 101   1              uprintf("0:退回上级目录\n");
+ 102   1              uprintf("1:创易电子\n");
+ 103   1              uprintf("2:华禹工控\n");
+ 104   1              uprintf("3:Timer Display On\n");
+ 105   1              uprintf("4:Timer Display Stop\n");
+ 106   1              
+ 107   1              uprintf("Menu = Timer\n");
+ 108   1              uprintf("Please press 1 , 2 , 3 or 4 to select menu\n");
+ 109   1      
+ 110   1              bTimer = TRUE;
+ 111   1      }
+ 112          
+ 113          void display_time_proc(void)
+ 114          {
+ 115   1              switch(KeyStore)
+ 116   1              {
+C51 COMPILER V9.01   MMI                                                                   10/11/2014 14:44:40 PAGE 3   
+
+ 117   2                      case '0':
+ 118   2                              mmi_idle_setup();
+ 119   2                              fMMIProc = mmi_idle_proc;
+ 120   2                              break;
+ 121   2                      case '1':
+ 122   2                              mmi_designeasy_setup();
+ 123   2                              fMMIProc = mmi_designeasy_proc;
+ 124   2                              break;
+ 125   2                      case '2':
+ 126   2                              mmi_huayu_setup();
+ 127   2                              fMMIProc = mmi_huayu_proc;
+ 128   2                              break;
+ 129   2                      case '3':
+ 130   2                              bTimer = TRUE;
+ 131   2                              return;
+ 132   2              }
+ 133   1              
+ 134   1              bTimer = FALSE;
+ 135   1      }
+ 136          
+ 137          void display_time_routine(void)
+ 138          {
+ 139   1              U8 i;
+ 140   1      
+ 141   1              if(!bTimer)
+ 142   1              {
+ 143   2                      return;
+ 144   2              }
+ 145   1              /*清除，便于串口原位显示*/
+ 146   1              for(i = 0; i < 25; i++)
+ 147   1              {
+ 148   2                      uputbyte(Key_BackSpace);
+ 149   2              }
+ 150   1              /*显示*/
+ 151   1              printf("timer is = %d :%d :%d",(U16)tTCMember.hour,(U16)tTCMember.minute,(U16)tTCMember.second);
+ 152   1      }
+ 153          
+ 154          void mmi_designeasy_setup(void)
+ 155          {
+ 156   1              uprintf("\n52edk.taobao.com\n");
+ 157   1              uprintf("\n创易电子\n");
+ 158   1              uprintf("a:特色电阻电容电感样品本\n");
+ 159   1              uprintf("b:配单业务\n");
+ 160   1              uprintf("c:华禹工控相关业务\n");
+ 161   1      
+ 162   1              uprintf("0:退回上级目录\n");
+ 163   1              uprintf("2:进入华禹目录\n");
+ 164   1      }
+ 165          
+ 166          void mmi_designeasy_proc(void)
+ 167          {
+ 168   1              switch(KeyStore)
+ 169   1              {
+ 170   2                      case '0':
+ 171   2                              mmi_idle_setup();
+ 172   2                              fMMIProc = mmi_idle_proc;
+ 173   2                              break;
+ 174   2                      case '2':
+ 175   2                              mmi_huayu_setup();
+ 176   2                              fMMIProc = mmi_huayu_proc;
+ 177   2                              break;
+ 178   2              }
+C51 COMPILER V9.01   MMI                                                                   10/11/2014 14:44:40 PAGE 4   
+
+ 179   1      }
+ 180          void mmi_huayu_setup(void)
+ 181          {
+ 182   1              uprintf("\nwww.huayusoft.com\n");
+ 183   1              uprintf("\n华禹工控\n");
+ 184   1              uprintf("a:旋风001手机开发模块\n");
+ 185   1              uprintf("b:P1220手持PDA\n");
+ 186   1              uprintf("c:飓风001智能PDA\n");
+ 187   1              
+ 188   1              uprintf("0:退回上级目录\n");
+ 189   1              uprintf("1:进入创易目录\n");
+ 190   1      }
+ 191          
+ 192          void mmi_huayu_proc(void)
+ 193          {
+ 194   1              switch(KeyStore)
+ 195   1              {
+ 196   2                      case '0':
+ 197   2                              mmi_idle_setup();
+ 198   2                              fMMIProc = mmi_idle_proc;
+ 199   2                              break;
+ 200   2                      case '1':
+ 201   2                              mmi_designeasy_setup();
+ 202   2                              fMMIProc = mmi_designeasy_proc;
+ 203   2                              break;
+ 204   2              }
+ 205   1      }
+ 206          
+ 207          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    680    ----
+   CONSTANT SIZE    =    565    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       1
+   IDATA SIZE       =      3    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

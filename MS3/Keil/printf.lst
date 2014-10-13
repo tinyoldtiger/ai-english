@@ -1,0 +1,314 @@
+C51 COMPILER V7.10   PRINTF                                                                02/04/2011 00:06:59 PAGE 1   
+
+
+C51 COMPILER V7.10, COMPILATION OF MODULE PRINTF
+OBJECT MODULE PLACED IN .\printf.obj
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE ..\SourceFile\printf.c BROWSE DEBUG OBJECTEXTEND PRINT(.\printf.lst) OBJECT
+                    -(.\printf.obj)
+
+line level    source
+
+   1          
+   2          
+   3          #include <stdio.h>
+   4          #include <stdarg.h>
+   5          
+   6          
+   7          #include "common.h"
+   8          
+   9          #if 0
+              
+              //typedef char *va_list;
+              
+              #define   _AUPBND        (sizeof (acpi_native_int) - 1)
+              #define   _ADNBND        (sizeof (acpi_native_int) - 1)
+                                   
+              #define _bnd(X, bnd) (((sizeof (X)) + (bnd)) & (~(bnd)))
+              //#define va_arg(ap, T) (*(T *)(((ap) += (_bnd (T, _AUPBND))) - (_bnd (T,_ADNBND))))
+              //#define va_end(ap)    (void) 0
+              //#define va_start(ap, A) (void) ((ap) = (((char *) &(A)) + (_bnd (A,_AUPBND))))
+              
+              //start.c
+              static char xdata sprint_buf[100];
+              void qprintf(char *fmt, ...)
+              {
+              va_list args;
+              int n;
+              va_start(args, fmt);
+              n = vsprintf(sprint_buf, fmt, args);
+              va_end(args);
+              //write(stdout, sprint_buf, n);
+              //return n;
+              }
+              
+              
+              #define LEFT    0x01
+              #define PLUS    0x02
+              #define SPACE   0x04
+              #define SPECIAL 0x08
+              #define ZEROPAD 0x10
+              #define LARGE   0x20
+              #define SIGN    0x40    
+              
+              int vsprintf(char *buf, const char *fmt, va_list args)
+              {
+                int len;
+                unsigned long num;
+                int i, base;
+                char *str;
+                char *s;
+              
+                int flags;            // Flags to number()
+              
+                int field_width;    // Width of output field
+                int precision;    // Min. # of digits for integers; max number of chars for from string
+C51 COMPILER V7.10   PRINTF                                                                02/04/2011 00:06:59 PAGE 2   
+
+                int qualifier;    // 'h', 'l', or 'L' for integer fields
+              
+                for (str = buf; *fmt; fmt++)
+                {
+                  if (*fmt != '%')
+                  {
+                    *str++ = *fmt;
+                    continue;
+                  }
+                        
+                  // Process flags
+                  flags = 0;
+              repeat:
+                  fmt++; // This also skips first '%'
+              
+              #if 0
+                  switch (*fmt)
+                  {
+                    case '-': flags |= LEFT; goto repeat;
+                    case '+': flags |= PLUS; goto repeat;
+                    case ' ': flags |= SPACE; goto repeat;
+                    case '#': flags |= SPECIAL; goto repeat;
+                    case '0': flags |= ZEROPAD; goto repeat;
+                  }
+              #endif
+                    
+                  // Get field width
+                  field_width = -1;
+              #if 0
+                  if (is_digit(*fmt))
+                    field_width = skip_atoi(&fmt);
+                  else if (*fmt == '*')
+                  {
+                    fmt++;
+                    field_width = va_arg(args, int);
+                    if (field_width < 0)
+                    {
+                  field_width = -field_width;
+                  flags |= LEFT;
+                    }
+                  }
+              #endif
+              
+                  // Get the precision
+                  precision = -1;
+              #if 0
+                  if (*fmt == '.')
+                  {
+                    ++fmt;    
+                    if (is_digit(*fmt))
+                      precision = skip_atoi(&fmt);
+                    else if (*fmt == '*')
+                    {
+                      ++fmt;
+                      precision = va_arg(args, int);
+                    }
+                    if (precision < 0) precision = 0;
+                  }
+              #endif
+              
+                  // Get the conversion qualifier
+                  qualifier = -1;
+C51 COMPILER V7.10   PRINTF                                                                02/04/2011 00:06:59 PAGE 3   
+
+              #if 0
+                  if (*fmt == 'h' || *fmt == 'l' || *fmt == 'L')
+                  {
+                    qualifier = *fmt;
+                    fmt++;
+                  }
+              #endif
+              
+                  // Default base
+                  base = 10;
+              
+                  switch (*fmt)
+                  {
+                    case 'c':
+                  if (!(flags & LEFT)) while (--field_width > 0) *str++ = ' ';
+                  *str++ = (unsigned char) va_arg(args, int);
+                  while (--field_width > 0) *str++ = ' ';
+                  continue;
+              
+              #if 0
+                    case 's':
+                  s = va_arg(args, char *);
+                  if (!s)    s = "<NULL>";
+                  len = strnlen(s, precision);
+                  if (!(flags & LEFT)) while (len < field_width--) *str++ = ' ';
+                  for (i = 0; i < len; ++i) *str++ = *s++;
+                  while (len < field_width--) *str++ = ' ';
+                  continue;
+              
+                    case 'p':
+                  if (field_width == -1)
+                  {
+                    field_width = 2 * sizeof(void *);
+                    flags |= ZEROPAD;
+                  }
+                  str = number(str, (unsigned long) va_arg(args, void *), 16, field_width, precision, flags);
+                  continue;
+              
+                    case 'n':
+                  if (qualifier == 'l')
+                  {
+                    long *ip = va_arg(args, long *);
+                    *ip = (str - buf);
+                  }
+                  else
+                  {
+                    int *ip = va_arg(args, int *);
+                    *ip = (str - buf);
+                  }
+                  continue;
+              
+                    case 'A':
+                  flags |= LARGE;
+              
+                    case 'a':
+                  if (qualifier == 'l')
+                    str = eaddr(str, va_arg(args, unsigned char *), field_width, precision, flags);
+                  else
+                    str = iaddr(str, va_arg(args, unsigned char *), field_width, precision, flags);
+                  continue;
+              
+                    // Integer number formats - set up the flags and "break"
+C51 COMPILER V7.10   PRINTF                                                                02/04/2011 00:06:59 PAGE 4   
+
+                    case 'o':
+                  base = 8;
+                  break;
+              
+                    case 'X':
+                  flags |= LARGE;
+              
+                    case 'x':
+                  base = 16;
+                  break;
+              #endif
+              
+                    case 'd':
+                    case 'i':
+                  flags |= SIGN;
+              
+                    case 'u':
+                  break;
+              
+              #if 0
+                    case 'E':
+                    case 'G':
+                    case 'e':
+                    case 'f':
+                    case 'g':
+                      str = flt(str, va_arg(args, double), field_width, precision, *fmt, flags | SIGN);
+                  continue;
+              #endif
+              
+                    default:
+                  if (*fmt != '%') *str++ = '%';
+                  if (*fmt)
+                    *str++ = *fmt;
+                  else
+                    --fmt;
+                  continue;
+                  }
+              
+                  if (qualifier == 'l')
+                    num = va_arg(args, unsigned long);
+                  else if (qualifier == 'h')
+                  {
+                    if (flags & SIGN)
+                  num = va_arg(args, short);
+                    else
+                  num = va_arg(args, unsigned short);
+                  }
+                  else if (flags & SIGN)
+                    num = va_arg(args, int);
+                  else
+                    num = va_arg(args, unsigned int);
+              
+              #if 0
+                  str = number(str, num, base, field_width, precision, flags);
+              #else
+                      uputchar(num >> 8);
+                      uputchar(num & 0x00FF);
+              #endif
+                }
+              
+                *str = '\0';
+                return str - buf;
+C51 COMPILER V7.10   PRINTF                                                                02/04/2011 00:06:59 PAGE 5   
+
+              }
+              
+              
+              
+              #else
+ 246          
+ 247          
+ 248          
+ 249          void qprintf(const char *fmt, ...)
+ 250          {
+ 251   1           va_list arg_ptr;  //定义一个用来指向函数变参列表的指针arg_ptr
+ 252   1      
+ 253   1           U16 i,j,k;
+ 254   1      
+ 255   1           va_start(arg_ptr, fmt);  //使arg_ptr指向第一个可变参数
+ 256   1           i = va_arg(arg_ptr, int);  //取得arg_ptr当前所指向的参数的值，并使arg_ptr指向下一个参数
+ 257   1              j = va_arg(arg_ptr, int);
+ 258   1              k = va_arg(arg_ptr, int);
+ 259   1               va_end(arg_ptr);  //指示提取参数结束
+ 260   1      
+ 261   1              uputchar(i >> 8);
+ 262   1              uputchar(i & 0x00FF);
+ 263   1              uputchar(j >> 8);
+ 264   1              uputchar(j & 0x00FF);
+ 265   1              uputchar(k >> 8);
+ 266   1              uputchar(k & 0x00FF);
+ 267   1      
+ 268   1      
+ 269   1           return;
+ 270   1      }
+ 271          #if 0
+              int main(void)
+              {
+                   simple_va_fun(3, 4);
+              
+              
+                   return 0;
+              }
+              #endif
+ 280          
+ 281          #endif
+ 282          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    123    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----      27
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

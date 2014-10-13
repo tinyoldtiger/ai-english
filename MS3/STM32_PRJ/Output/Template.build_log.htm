@@ -1,0 +1,533 @@
+<html>
+<body>
+<pre>
+<h1>礦ision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: μVision V5.12.0.0
+Copyright (C) 2014 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: TINY BIRD, bird, LIC=21EWF-6CT09-Z8GFH-W1124-2HWES-ZC8YI
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.12.0.0
+Toolchain Path:  D:\Keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.05 (build 41)
+Assembler:       Armasm.exe V5.05 (build 41)
+Linker/Locator:  ArmLink.exe V5.05 (build 41)
+Library Manager: ArmAr.exe V5.05 (build 41)
+Hex Converter:   FromElf.exe V5.05 (build 41)
+CPU DLL:         SARMCM3.DLL V5.12.0.0
+Dialog DLL:      DCM.DLL V1.13.0.0
+Target DLL:      UL2CM3.DLL V1.153.0.0
+Dialog DLL:      TCM.DLL V1.14.2.0
+ 
+<h2>Project:</h2>
+F:\soundAI\MS3\STM32_PRJ\Project\RVMDK（uv4）\iSO-STM32.uvprojx
+Project File Date:  10/11/2014
+
+<h2>Output:</h2>
+Rebuild target 'USART'
+assembling startup_stm32f10x_hd.s...
+compiling core_cm3.c...
+compiling system_stm32f10x.c...
+compiling misc.c...
+compiling stm32f10x_adc.c...
+compiling stm32f10x_bkp.c...
+compiling stm32f10x_can.c...
+compiling stm32f10x_cec.c...
+compiling stm32f10x_crc.c...
+compiling stm32f10x_dac.c...
+compiling stm32f10x_dbgmcu.c...
+compiling stm32f10x_dma.c...
+compiling stm32f10x_exti.c...
+compiling stm32f10x_flash.c...
+compiling stm32f10x_fsmc.c...
+compiling stm32f10x_gpio.c...
+compiling stm32f10x_i2c.c...
+compiling stm32f10x_iwdg.c...
+compiling stm32f10x_pwr.c...
+compiling stm32f10x_rcc.c...
+compiling stm32f10x_rtc.c...
+compiling stm32f10x_sdio.c...
+compiling stm32f10x_spi.c...
+compiling stm32f10x_tim.c...
+compiling stm32f10x_usart.c...
+compiling stm32f10x_wwdg.c...
+compiling main.c...
+..\..\User\main.c(10): warning:  #223-D: function "port_init" declared implicitly
+        port_init();
+..\..\User\main.c(14): warning:  #223-D: function "Interrupt_priority_init" declared implicitly
+        Interrupt_priority_init();
+..\..\User\main.c(17): warning:  #223-D: function "flash_init" declared implicitly
+        flash_init();
+..\..\User\main.c(22): warning:  #223-D: function "CH375_init" declared implicitly
+    CH375_init();       
+..\..\User\main.c(24): warning:  #223-D: function "init_process" declared implicitly
+        init_process(); /*程序初始化*/
+..\..\User\LD3320\LD3320.h(49): error:  #114: function "LD3320_init" was referenced but not defined
+  static void LD3320_init(void);
+..\..\User\main.c: 5 warnings, 1 error
+compiling stm32f10x_it.c...
+compiling usart.c...
+compiling LD3320.c...
+..\..\User\LD3320\LD3320.c(17): error:  #147-D: declaration is incompatible with "void LD3320_main(void)" (declared at line 38 of "..\..\User\LD3320\LD3320.h")
+  void LD3320_main(uint8 msg)
+..\..\User\LD3320\LD3320.c(508): warning:  #223-D: function "MSG_SEND_MSG" declared implicitly
+                                MSG_SEND_MSG(MSG_LD_IDENTIFY,LD_ASR_FOUNDOK);
+..\..\User\LD3320\LD3320.c(508): error:  #20: identifier "MSG_LD_IDENTIFY" is undefined
+                                MSG_SEND_MSG(MSG_LD_IDENTIFY,LD_ASR_FOUNDOK);
+..\..\User\LD3320\LD3320.c(513): warning:  #223-D: function "MSG_SEND_MSG" declared implicitly
+                                MSG_SEND_MSG(MSG_LD_IDENTIFY,LD_ASR_FOUNDZERO);
+..\..\User\LD3320\LD3320.c(513): error:  #20: identifier "MSG_LD_IDENTIFY" is undefined
+                                MSG_SEND_MSG(MSG_LD_IDENTIFY,LD_ASR_FOUNDZERO);
+..\..\User\LD3320\LD3320.c(519): warning:  #223-D: function "MSG_SEND_MSG" declared implicitly
+                MSG_SEND_MSG(MSG_LD_IDENTIFY,LD_ASR_FOUNDZERO);
+..\..\User\LD3320\LD3320.c(519): error:  #20: identifier "MSG_LD_IDENTIFY" is undefined
+                MSG_SEND_MSG(MSG_LD_IDENTIFY,LD_ASR_FOUNDZERO);
+..\..\User\LD3320\LD3320.c(134): warning:  #177-D: function "Board_text" was declared but never referenced
+  static void Board_text(uint8 Code_Val)
+..\..\User\LD3320\LD3320.c(222): warning:  #177-D: function "LD3320_init" was declared but never referenced
+  static void LD3320_init(void)
+..\..\User\LD3320\LD3320.c: 5 warnings, 4 errors
+compiling boot.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\boot.c(135): warning:  #223-D: function "LD3320_main" declared implicitly
+                          LD3320_main(MSG_VALUE(Msg));
+..\..\..\SourceFile\boot.c(101): warning:  #177-D: variable "i" was declared but never referenced
+        U8 i = 0;
+..\..\..\SourceFile\boot.c: 4 warnings, 0 errors
+compiling flash.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\flash.c: 2 warnings, 0 errors
+compiling key.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.c(27): error:  #20: identifier "U1" is undefined
+  static U1 KeyEnable = TRUE;
+..\..\..\SourceFile\key.c(27): error:  #20: identifier "U1" is undefined
+  static U1 KeyEnable = TRUE;
+..\..\..\SourceFile\key.c(27): error:  #65: expected a ";"
+  static U1 KeyEnable = TRUE;
+..\..\..\SourceFile\key.c(42): error:  #65: expected a ";"
+        KeyEnable = TRUE;
+..\..\..\SourceFile\key.c(55): error:  #65: expected a ";"
+        KeyEnable = FALSE;
+..\..\..\SourceFile\key.c(98): error:  #65: expected a ";"
+        U8 data  KeyRead;
+..\..\..\SourceFile\key.c(100): error:  #101: "data" has already been declared in the current scope
+        static U8 data KeySafeguardInterval = 0;
+..\..\..\SourceFile\key.c(100): error:  #65: expected a ";"
+        static U8 data KeySafeguardInterval = 0;
+..\..\..\SourceFile\key.c(101): error:  #101: "data" has already been declared in the current scope
+        static U8 data KeyCounter = 0;
+..\..\..\SourceFile\key.c(101): error:  #65: expected a ";"
+        static U8 data KeyCounter = 0;
+..\..\..\SourceFile\key.c(102): error:  #101: "data" has already been declared in the current scope
+        static U8 data KeySave = 0;
+..\..\..\SourceFile\key.c(102): error:  #65: expected a ";"
+        static U8 data KeySave = 0;
+..\..\..\SourceFile\key.c(108): error:  #20: identifier "KeyRead" is undefined
+        KeyRead = key_read();   /*读取按键值*/
+..\..\..\SourceFile\key.c(113): error:  #20: identifier "KeySafeguardInterval" is undefined
+                if(KeySafeguardInterval)/*防止按键接触不良引起的多重触发*/      
+..\..\..\SourceFile\key.c(117): error:  #20: identifier "KeyCounter" is undefined
+                KeyCounter = 0;
+..\..\..\SourceFile\key.c(121): error:  #20: identifier "KeyCounter" is undefined
+        KeyCounter++;   /*当有效按键，自加*/
+..\..\..\SourceFile\key.c(125): error:  #20: identifier "KeySafeguardInterval" is undefined
+                if((!KeySafeguardInterval) && (KeySave == KeyRead))
+..\..\..\SourceFile\key.c(125): error:  #20: identifier "KeySave" is undefined
+                if((!KeySafeguardInterval) && (KeySave == KeyRead))
+..\..\..\SourceFile\key.c(136): error:  #20: identifier "KeySave" is undefined
+                if(KeySave == KeyRead)
+..\..\..\SourceFile\key.c(143): error:  #20: identifier "KeySave" is undefined
+        KeySave = KeyRead;
+..\..\..\SourceFile\key.c(98): warning:  #177-D: variable "data" was declared but never referenced
+        U8 data  KeyRead;
+..\..\..\SourceFile\key.c(100): warning:  #177-D: variable "data" was declared but never referenced
+        static U8 data KeySafeguardInterval = 0;
+..\..\..\SourceFile\key.c(101): warning:  #177-D: variable "data" was declared but never referenced
+        static U8 data KeyCounter = 0;
+..\..\..\SourceFile\key.c(102): warning:  #177-D: variable "data" was declared but never referenced
+        static U8 data KeySave = 0;
+..\..\..\SourceFile\key.c: 6 warnings, 20 errors
+compiling mcu.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\mcu.c(127): error:  #20: identifier "CKCON" is undefined
+        SETBIT(CKCON, 0);                                               
+..\..\..\SourceFile\mcu.c(152): error:  #20: identifier "U1" is undefined
+  void timer0_init(U1 Enable,
+..\..\..\SourceFile\mcu.c(157): error:  #20: identifier "TF0" is undefined
+        TF0 = 0;                                        /*定时器中断标志位*/
+..\..\..\SourceFile\mcu.c(159): error:  #20: identifier "TMOD" is undefined
+        RESETBIT(TMOD, 3);              /*不受INT0控制*/
+..\..\..\SourceFile\mcu.c(183): error:  #20: identifier "TH0" is undefined
+        TH0 = TH0Data;
+..\..\..\SourceFile\mcu.c(184): error:  #20: identifier "TL0" is undefined
+        TL0 = TL0Data;
+..\..\..\SourceFile\mcu.c(186): error:  #20: identifier "ET0" is undefined
+        ET0 = (U1)1;                            /*中断允许*/
+..\..\..\SourceFile\mcu.c(186): error:  #20: identifier "U1" is undefined
+        ET0 = (U1)1;                            /*中断允许*/
+..\..\..\SourceFile\mcu.c(186): error:  #65: expected a ";"
+        ET0 = (U1)1;                            /*中断允许*/
+..\..\..\SourceFile\mcu.c(187): error:  #20: identifier "TR0" is undefined
+        TR0 = Enable;
+..\..\..\SourceFile\mcu.c(200): error:  #20: identifier "U1" is undefined
+  void timer2_init(U1 Enable, TimerInterval eTimerInterval)
+..\..\..\SourceFile\mcu.c(202): error:  #20: identifier "TH2" is undefined
+        TH2 = eTimerInterval;
+..\..\..\SourceFile\mcu.c(203): error:  #20: identifier "RCAP2H" is undefined
+        RCAP2H = eTimerInterval;
+..\..\..\SourceFile\mcu.c(206): error:  #20: identifier "TL2" is undefined
+        TL2 = 0x00;
+..\..\..\SourceFile\mcu.c(207): error:  #20: identifier "RCAP2L" is undefined
+        RCAP2L = 0x00;
+..\..\..\SourceFile\mcu.c(209): error:  #20: identifier "T2MOD" is undefined
+        T2MOD = 0x00;
+..\..\..\SourceFile\mcu.c(212): error:  #20: identifier "T2CON" is undefined
+                T2CON = 0x04;
+..\..\..\SourceFile\mcu.c(216): error:  #20: identifier "T2CON" is undefined
+                T2CON = 0x00;
+..\..\..\SourceFile\mcu.c(219): error:  #20: identifier "ET2" is undefined
+        ET2 = 1;
+..\..\..\SourceFile\mcu.c(232): error:  #20: identifier "ES" is undefined
+        ES = 0;                 /*关串行口中断*/        
+..\..\..\SourceFile\mcu.c(235): error:  #20: identifier "PCON" is undefined
+        RESETBIT(PCON, 7);
+..\..\..\SourceFile\mcu.c(246): error:  #20: identifier "TMOD" is undefined
+        TMOD &= 0x0F;
+..\..\..\SourceFile\mcu.c(248): error:  #20: identifier "ET1" is undefined
+        ET1 = 0;                                /*中断无效*/
+..\..\..\SourceFile\mcu.c(249): error:  #20: identifier "TH1" is undefined
+        TH1 = BaudRate;
+..\..\..\SourceFile\mcu.c(250): error:  #20: identifier "TL1" is undefined
+        TL1 = BaudRate;
+..\..\..\SourceFile\mcu.c(251): error:  #20: identifier "TR1" is undefined
+        TR1 = 1;                                /*定时器开启*/
+..\..\..\SourceFile\mcu.c(252): error:  #20: identifier "SCON" is undefined
+        SCON = 0x50;
+..\..\..\SourceFile\mcu.c(254): error:  #20: identifier "RI" is undefined
+        RI = 0;
+..\..\..\SourceFile\mcu.c(267): error:  #130: expected a "{"
+  void extern_interrupt0(void) interrupt 0
+..\..\..\SourceFile\mcu.c(280): error:  #130: expected a "{"
+  void extern_interrupt1(void) interrupt 2
+..\..\..\SourceFile\mcu.c: 2 warnings, 30 errors
+compiling mcu_ext.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\mcu_ext.c(35): error:  #20: identifier "sbit" is undefined
+  sbit SDA = P1^0;                      /*模拟串行转并行口，下降沿有效，输出为低电平可控点亮*/
+..\..\..\SourceFile\mcu_ext.c(35): error:  #20: identifier "P1" is undefined
+  sbit SDA = P1^0;                      /*模拟串行转并行口，下降沿有效，输出为低电平可控点亮*/
+..\..\..\SourceFile\mcu_ext.c(36): error:  #20: identifier "sbit" is undefined
+  sbit SCL = P1^1;                      /*模拟串并行转换的时钟信号线*/
+..\..\..\SourceFile\mcu_ext.c(38): error:  #20: identifier "sbit" is undefined
+  sbit KEY = P1^2;                      /*键盘，低电平有效，检测位*/
+..\..\..\SourceFile\mcu_ext.c(40): error:  #20: identifier "sbit" is undefined
+  sbit DISPLAY0 = P1^3;         /*EBIT4, 低电平有效*/
+..\..\..\SourceFile\mcu_ext.c(41): error:  #20: identifier "sbit" is undefined
+  sbit DISPLAY1 = P1^4;         /*EBIT3*/
+..\..\..\SourceFile\mcu_ext.c(42): error:  #20: identifier "sbit" is undefined
+  sbit DISPLAY2 = P1^5;         /*EBIT2*/
+..\..\..\SourceFile\mcu_ext.c(43): error:  #20: identifier "sbit" is undefined
+  sbit DISPLAY3 = P1^6;         /*EBIT1*/
+..\..\..\SourceFile\mcu_ext.c(45): error:  #20: identifier "sbit" is undefined
+  sbit LED = P1^7;                      /*EBIT0，低电平有效*/
+..\..\..\SourceFile\mcu_ext.c(47): error:  #65: expected a ";"
+  U8 code LedDisplayMap[2][16] =
+..\..\..\SourceFile\mcu_ext.c(51): warning:  #12-D: parsing restarts here after previous syntax error
+  };
+..\..\..\SourceFile\mcu_ext.c(149): error:  #20: identifier "U1" is undefined
+   void LedDisplay_control(U1 boDp, U8 LedDisplayIndex, U8 value)
+..\..\..\SourceFile\mcu_ext.c(151): error:  #20: identifier "U1" is undefined
+        U1 i;
+..\..\..\SourceFile\mcu_ext.c(154): error:  #20: identifier "LedDisplayMap" is undefined
+        SendData(LedDisplayMap[i][value]);              /*r发送LED显示数据到串并转换电路*/
+..\..\..\SourceFile\mcu_ext.c: 3 warnings, 13 errors
+compiling message.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\message.c(25): error:  #65: expected a ";"
+  static U8 data u8MsgHead;             /*position that msg will be put in*/
+..\..\..\SourceFile\message.c(26): error:  #65: expected a ";"
+  static U8 data u8MsgTail;             /*position that msg will be get out*/
+..\..\..\SourceFile\message.c(27): error:  #65: expected a ";"
+  static U8 data u8MsgNum;              /*msg number*/
+..\..\..\SourceFile\message.c(28): error:  #147: declaration is incompatible with "U8 data" (declared at line 25)
+  static U16 data u16MsgArray[MSG_ARRAY_SIZE];  /*msg queue*/
+..\..\..\SourceFile\message.c(28): error:  #65: expected a ";"
+  static U16 data u16MsgArray[MSG_ARRAY_SIZE];  /*msg queue*/
+..\..\..\SourceFile\message.c(40): error:  #20: identifier "u8MsgHead" is undefined
+        u8MsgHead = 0;
+..\..\..\SourceFile\message.c(41): error:  #20: identifier "u8MsgTail" is undefined
+        u8MsgTail = 0;
+..\..\..\SourceFile\message.c(42): error:  #20: identifier "u8MsgNum" is undefined
+        u8MsgNum = 0;
+..\..\..\SourceFile\message.c(60): error:  #20: identifier "EA" is undefined
+        EA_MAP = INTERRUPT_GET();
+..\..\..\SourceFile\message.c(61): error:  #20: identifier "U1" is undefined
+        INTERRUPT_DISABLE();
+..\..\..\SourceFile\message.c(61): error:  #65: expected a ";"
+        INTERRUPT_DISABLE();
+..\..\..\SourceFile\message.c(63): error:  #20: identifier "u8MsgNum" is undefined
+        if (u8MsgNum >= MSG_ARRAY_SIZE)
+..\..\..\SourceFile\message.c(70): error:  #20: identifier "u16MsgArray" is undefined
+        u16MsgArray[ u8MsgHead] = u16;  
+..\..\..\SourceFile\message.c(70): error:  #20: identifier "u8MsgHead" is undefined
+        u16MsgArray[ u8MsgHead] = u16;  
+..\..\..\SourceFile\message.c(86): error:  #20: identifier "EA" is undefined
+        EA_MAP = INTERRUPT_GET();
+..\..\..\SourceFile\message.c(87): error:  #20: identifier "U1" is undefined
+        INTERRUPT_DISABLE();
+..\..\..\SourceFile\message.c(87): error:  #65: expected a ";"
+        INTERRUPT_DISABLE();
+..\..\..\SourceFile\message.c(88): error:  #20: identifier "u8MsgNum" is undefined
+        if (u8MsgNum >= MSG_ARRAY_SIZE)
+..\..\..\SourceFile\message.c(95): error:  #20: identifier "u16MsgArray" is undefined
+        ((U8 *)(&(u16MsgArray[ u8MsgHead])))[0] = MsgType;      
+..\..\..\SourceFile\message.c(95): error:  #20: identifier "u8MsgHead" is undefined
+        ((U8 *)(&(u16MsgArray[ u8MsgHead])))[0] = MsgType;      
+..\..\..\SourceFile\message.c(123): error:  #20: identifier "u8MsgNum" is undefined
+        if (u8MsgNum == 0)
+..\..\..\SourceFile\message.c(129): error:  #20: identifier "EA" is undefined
+        EA_MAP = INTERRUPT_GET();
+..\..\..\SourceFile\message.c(130): error:  #20: identifier "U1" is undefined
+        INTERRUPT_DISABLE();
+..\..\..\SourceFile\message.c(130): error:  #65: expected a ";"
+        INTERRUPT_DISABLE();
+..\..\..\SourceFile\message.c(133): error:  #20: identifier "u16MsgArray" is undefined
+        *pU16 = u16MsgArray[u8MsgTail];
+..\..\..\SourceFile\message.c(133): error:  #20: identifier "u8MsgTail" is undefined
+        *pU16 = u16MsgArray[u8MsgTail];
+..\..\..\SourceFile\message.c(25): warning:  #177-D: variable "data" was declared but never referenced
+  static U8 data u8MsgHead;             /*position that msg will be put in*/
+..\..\..\SourceFile\message.c(28): warning:  #177-D: variable "data" was declared but never referenced
+  static U16 data u16MsgArray[MSG_ARRAY_SIZE];  /*msg queue*/
+..\..\..\SourceFile\message.c: 4 warnings, 26 errors
+compiling mmi.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\mmi.c(24): error:  #65: expected a ";"
+  Function idata fMMIProc;
+..\..\..\SourceFile\mmi.c(26): error:  #20: identifier "bool" is undefined
+  bool bTimer = FALSE;
+..\..\..\SourceFile\mmi.c(26): error:  #20: identifier "U1" is undefined
+  bool bTimer = FALSE;
+..\..\..\SourceFile\mmi.c(26): error:  #65: expected a ";"
+  bool bTimer = FALSE;
+..\..\..\SourceFile\mmi.c(58): warning:  #192-D: unrecognized character escape sequence
+        uprintf("\Author: wangsw\n");
+..\..\..\SourceFile\mmi.c(59): warning:  #192-D: unrecognized character escape sequence
+        uprintf("\Blog: www.eefocus\\wangsw\\blog\n");
+..\..\..\SourceFile\mmi.c(97): warning:  #192-D: unrecognized character escape sequence
+        uprintf("\Author: wangsw\n");
+..\..\..\SourceFile\mmi.c(98): warning:  #192-D: unrecognized character escape sequence
+        uprintf("\Blog: www.eefocus\\wangsw\\blog\n");
+..\..\..\SourceFile\mmi.c(110): error:  #65: expected a ";"
+        bTimer = TRUE;
+..\..\..\SourceFile\mmi.c(130): error:  #65: expected a ";"
+                        bTimer = TRUE;
+..\..\..\SourceFile\mmi.c(134): error:  #65: expected a ";"
+        bTimer = FALSE;
+..\..\..\SourceFile\mmi.c: 6 warnings, 7 errors
+compiling putchar.c...
+..\..\..\SourceFile\reg52x2.h(14): error:  #20: identifier "sfr" is undefined
+  sfr P0    = 0x80;
+..\..\..\SourceFile\reg52x2.h(15): error:  #20: identifier "sfr" is undefined
+  sfr P1    = 0x90;
+..\..\..\SourceFile\reg52x2.h(16): error:  #20: identifier "sfr" is undefined
+  sfr P2    = 0xA0;
+..\..\..\SourceFile\reg52x2.h(17): error:  #20: identifier "sfr" is undefined
+  sfr P3    = 0xB0;
+..\..\..\SourceFile\reg52x2.h(18): error:  #20: identifier "sfr" is undefined
+  sfr PSW   = 0xD0;
+..\..\..\SourceFile\reg52x2.h(19): error:  #20: identifier "sfr" is undefined
+  sfr ACC   = 0xE0;
+..\..\..\SourceFile\reg52x2.h(20): error:  #20: identifier "sfr" is undefined
+  sfr B     = 0xF0;
+..\..\..\SourceFile\reg52x2.h(21): error:  #20: identifier "sfr" is undefined
+  sfr SP    = 0x81;
+..\..\..\SourceFile\reg52x2.h(22): error:  #20: identifier "sfr" is undefined
+  sfr DPL   = 0x82;
+..\..\..\SourceFile\reg52x2.h(23): error:  #20: identifier "sfr" is undefined
+  sfr DPH   = 0x83;
+..\..\..\SourceFile\reg52x2.h(24): error:  #20: identifier "sfr" is undefined
+  sfr PCON  = 0x87;
+..\..\..\SourceFile\reg52x2.h(25): error:  #20: identifier "sfr" is undefined
+  sfr TCON  = 0x88;
+..\..\..\SourceFile\reg52x2.h(26): error:  #20: identifier "sfr" is undefined
+  sfr TMOD  = 0x89;
+..\..\..\SourceFile\reg52x2.h(27): error:  #20: identifier "sfr" is undefined
+  sfr TL0   = 0x8A;
+..\..\..\SourceFile\reg52x2.h(28): error:  #20: identifier "sfr" is undefined
+  sfr TL1   = 0x8B;
+..\..\..\SourceFile\reg52x2.h(29): error:  #20: identifier "sfr" is undefined
+  sfr TH0   = 0x8C;
+..\..\..\SourceFile\reg52x2.h(30): error:  #20: identifier "sfr" is undefined
+  sfr TH1   = 0x8D;
+..\..\..\SourceFile\reg52x2.h(31): error:  #20: identifier "sfr" is undefined
+  sfr IE    = 0xA8;
+..\..\..\SourceFile\reg52x2.h(32): error:  #20: identifier "sfr" is undefined
+  sfr IP    = 0xB8;
+..\..\..\SourceFile\reg52x2.h(33): error:  #20: identifier "sfr" is undefined
+  sfr SCON  = 0x98;
+..\..\..\SourceFile\reg52x2.h(34): error:  #20: identifier "sfr" is undefined
+  sfr SBUF  = 0x99;
+..\..\..\SourceFile\reg52x2.h(37): error:  #20: identifier "sfr" is undefined
+  sfr T2CON  = 0xC8;
+..\..\..\SourceFile\reg52x2.h(38): error:  #20: identifier "sfr" is undefined
+  sfr RCAP2L = 0xCA;
+..\..\..\SourceFile\reg52x2.h(39): error:  #20: identifier "sfr" is undefined
+  sfr RCAP2H = 0xCB;
+..\..\..\SourceFile\reg52x2.h(40): error:  #20: identifier "sfr" is undefined
+  sfr TL2    = 0xCC;
+..\..\..\SourceFile\reg52x2.h(41): error:  #20: identifier "sfr" is undefined
+  sfr TH2    = 0xCD;
+..\..\..\SourceFile\reg52x2.h(43): error:  #20: identifier "sfr" is undefined
+  sfr CKCON   = 0x8F;
+..\..\..\SourceFile\reg52x2.h(44): error:  #20: identifier "sfr" is undefined
+  sfr T2MOD   = 0xC9;
+..\..\..\SourceFile\reg52x2.h(45): error:  #20: identifier "sfr" is undefined
+  sfr IPH           =0xB7;
+..\..\..\SourceFile\reg52x2.h(46): error:  #20: identifier "sfr" is undefined
+  sfr AUXR    =0x8E;
+..\..\..\SourceFile\putchar.c: 0 warnings, 30 errors
+compiling routine.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\routine.c(54): error:  #20: identifier "U1" is undefined
+                        LedDisplay_control(FALSE, 1, uty_hex2bcd(tTCMember.second) & 0x0F);
+..\..\..\SourceFile\routine.c(54): error:  #165: too few arguments in function call
+                        LedDisplay_control(FALSE, 1, uty_hex2bcd(tTCMember.second) & 0x0F);
+..\..\..\SourceFile\routine.c(54): error:  #18: expected a ")"
+                        LedDisplay_control(FALSE, 1, uty_hex2bcd(tTCMember.second) & 0x0F);
+..\..\..\SourceFile\routine.c(57): error:  #165: too few arguments in function call
+                        LedDisplay_control(FALSE, 2,  uty_hex2bcd(tTCMember.second) >> 4);
+..\..\..\SourceFile\routine.c(57): error:  #18: expected a ")"
+                        LedDisplay_control(FALSE, 2,  uty_hex2bcd(tTCMember.second) >> 4);
+..\..\..\SourceFile\routine.c(60): error:  #165: too few arguments in function call
+                        LedDisplay_control(TRUE, 3, uty_hex2bcd(tTCMember.minute) & 0x0F);
+..\..\..\SourceFile\routine.c(60): error:  #18: expected a ")"
+                        LedDisplay_control(TRUE, 3, uty_hex2bcd(tTCMember.minute) & 0x0F);
+..\..\..\SourceFile\routine.c(63): error:  #165: too few arguments in function call
+                        LedDisplay_control(FALSE, 4, uty_hex2bcd(tTCMember.minute) >> 4);
+..\..\..\SourceFile\routine.c(63): error:  #18: expected a ")"
+                        LedDisplay_control(FALSE, 4, uty_hex2bcd(tTCMember.minute) >> 4);
+..\..\..\SourceFile\routine.c: 2 warnings, 9 errors
+compiling rtc.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\rtc.c: 1 warning, 0 errors
+compiling timer.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\timer.c(128): error:  #20: identifier "EA" is undefined
+        EA_MAP = INTERRUPT_GET();
+..\..\..\SourceFile\timer.c(129): error:  #20: identifier "U1" is undefined
+        INTERRUPT_DISABLE();/*关中断*/
+..\..\..\SourceFile\timer.c(129): error:  #65: expected a ";"
+        INTERRUPT_DISABLE();/*关中断*/
+..\..\..\SourceFile\timer.c(154): error:  #65: expected a ";"
+        ERRprintf("MSStartTimer\n");
+..\..\..\SourceFile\timer.c(155): warning:  #111-D: statement is unreachable
+        return 0xFF;
+..\..\..\SourceFile\timer.c(170): error:  #20: identifier "EA" is undefined
+        EA_MAP = INTERRUPT_GET();
+..\..\..\SourceFile\timer.c(171): error:  #20: identifier "U1" is undefined
+        INTERRUPT_DISABLE();
+..\..\..\SourceFile\timer.c(171): error:  #65: expected a ";"
+        INTERRUPT_DISABLE();
+..\..\..\SourceFile\timer.c(179): error:  #65: expected a ";"
+                ERRprintf("timer_mstimer_stop\n");
+..\..\..\SourceFile\timer.c: 3 warnings, 8 errors
+compiling trace.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\trace.c: 2 warnings, 0 errors
+compiling uart.c...
+..\..\..\SourceFile\message.h(38): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\key.h(42): warning:  #375-D: declaration requires a typedef name
+  };
+..\..\..\SourceFile\uart.c(80): warning:  #167-D: argument of type "U8 *" is incompatible with parameter of type "const char *"
+                i = strlen(pData);
+..\..\..\SourceFile\uart.c: 3 warnings, 0 errors
+compiling utility.c...
+..\..\..\SourceFile\utility.c(19): error:  #5: cannot open source input file "intrins.h": No such file or directory
+  #include <intrins.h>
+..\..\..\SourceFile\utility.c: 0 warnings, 1 error
+compiling wnd.c...
+..\..\..\SourceFile\wnd.c(14): error:  #20: identifier "PWND" is undefined
+  static PWND g_pCurrentWnd=0; //当前窗口
+..\..\..\SourceFile\wnd.c(15): error:  #20: identifier "uint8_t" is undefined
+  static uint8_t g_WndBuffer[MAX_WND_BUF_SIZE];//分配给窗口用的缓冲区
+..\..\..\SourceFile\wnd.c(16): error:  #20: identifier "uint8_t" is undefined
+  static uint8_t *g_pWndBuf=g_WndBuffer;//缓冲分配当前位置
+..\..\..\SourceFile\wnd.c(19): error:  #20: identifier "PWND" is undefined
+  void CreateWnd(PWND pWnd,                     \
+..\..\..\SourceFile\wnd.c(20): error:  #92: identifier-list parameters may only be used in a function definition
+                                void (*kf)(PWND ,uint8_t) ,   \
+..\..\..\SourceFile\wnd.c(21): error:  #20: identifier "PWND" is undefined
+                                PWND parWnd,                  \
+..\..\..\SourceFile\wnd.c(22): error:  #20: identifier "uint8_t" is undefined
+                                uint8_t buf_size)
+..\..\..\SourceFile\wnd.c(24): error:  #20: identifier "uint8_t" is undefined
+        uint8_t i;
+..\..\..\SourceFile\wnd.c(41): error:  #20: identifier "PWND" is undefined
+  void SetCallBackWnd(PWND pWnd,\
+..\..\..\SourceFile\wnd.c(42): error:  #92: identifier-list parameters may only be used in a function definition
+                                                                                void (*Load)(PWND),\
+..\..\..\SourceFile\wnd.c(43): error:  #92: identifier-list parameters may only be used in a function definition
+                                                                                void (*UnLoad)(PWND),\
+..\..\..\SourceFile\wnd.c(44): error:  #92: identifier-list parameters may only be used in a function definition
+                                                                                void (*TimerEvent)(PWND,uint8_t))
+..\..\..\SourceFile\wnd.c(52): error:  #20: identifier "PWND" is undefined
+  void SetCurrentWnd(PWND pWnd)
+..\..\..\SourceFile\wnd.c(77): error:  #20: identifier "uint8_t" is undefined
+  void CurrentKeyEvent(uint8_t key)
+..\..\..\SourceFile\wnd.c(86): error:  #20: identifier "uint8_t" is undefined
+        static uint8_t flag=0;
+..\..\..\SourceFile\wnd.c: 0 warnings, 15 errors
+compiling CH375.C...
+..\..\..\C51_CH375\CH375.H(1): error:  #5: cannot open source input file "reg52.h": No such file or directory
+  #include <reg52.h>
+..\..\..\C51_CH375\CH375.C: 0 warnings, 1 error
+compiling HOST.C...
+..\..\..\C51_CH375\CH375.H(1): error:  #5: cannot open source input file "reg52.h": No such file or directory
+  #include <reg52.h>
+..\..\..\C51_CH375\HOST.C: 0 warnings, 1 error
+"..\..\Output\Template.axf" - 166 Error(s), 48 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  F:\soundAI\MS3\STM32_PRJ\Project\RVMDK（uv4）\RTE
+  D:\Keil\Keil\STM32F1xx_DFP\1.0.5\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Target not created.
+</pre>
+</body>
+</html>

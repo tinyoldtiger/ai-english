@@ -1,0 +1,263 @@
+C51 COMPILER V9.01   TIMER                                                                 10/11/2014 14:44:40 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE TIMER
+OBJECT MODULE PLACED IN .\timer.obj
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE ..\SourceFile\timer.c BROWSE DEBUG OBJECTEXTEND PRINT(.\timer.lst) OBJECT(.
+                    -\timer.obj)
+
+line level    source
+
+   1          
+   2          /***************************************************************************************
+   3          ****************************************************************************************
+   4          * FILE          : timer.c
+   5          * Description   : timer and MSTimer
+   6          *                         
+   7          * Copyright (c) 2003~2007 by WANG SHAOWEI. All Rights Reserved.
+   8          * 
+   9          * History:
+  10          * Version               Name                    Date                    Description
+  11             1.0          Wang Shaowei    2003/07/16      Initial Version (MCU System)
+  12             2.0          Wang Shaowei    2005/06/01      MS2
+  13             3.0          Wang Shaowei    2007/03/11      MS3
+  14             
+  15          ****************************************************************************************
+  16          ****************************************************************************************/
+  17          
+  18          
+  19          /*
+  20          寄存器说明:
+  21          1       TCON:中断标志寄存器
+  22                  TF1(8F)         T1中断标志位
+  23                  TR1(8E)         T1启停位        
+  24                  TF0(8D)         T0中断标志位
+  25                  TR0(8C)         T0启停位
+  26          2       TMOD:定时器方式寄存器
+  27                  GATE    |       C/~T    |       M1,M0   |GATE   |       C/~T    |       M1,M0   |
+  28                  \______________________________/        0 ~INT0  0      定时器    0 , 0 -----方式0
+  29                                          T1                                      无关     1      计数器    0 ,  1        -----方式1
+  30                  对应                                                    1 ~INT0     模式                  1 ,  0        -----方式2
+  31                  INT1                                                            有关                                      1 ,  1        -----方式3
+  32          
+  33          
+  34          3       工作方式:
+  35                  方式0:13位计数器TL的搞三位不用
+  36                  方式1:16位计数器
+  37                  方式2:可循环8位计数器,适用于UART
+  38                  方式3:T0与T1不同
+  39                  定时器1 只能按不需要中断的方式2工作
+  40                  此模式下定时器0 的TL0 及TH0 作为两个独立的8 位计数器/定时器
+  41                  TL0 占用定时器0 的TF0 TH0 
+  42                  TL1 占用定时器1 的TR1和TF1
+  43                  
+  44          */
+  45          
+  46          
+  47          #include "common.h"
+  48          
+  49          
+  50          
+  51          
+  52          
+  53          
+  54          typedef struct 
+C51 COMPILER V9.01   TIMER                                                                 10/11/2014 14:44:40 PAGE 2   
+
+  55          {
+  56                  U16  delay;
+  57                  Function pCallBack;
+  58          }MSTIMER_T;
+  59          
+  60          
+  61          static U8 data MSTimerID = 0;
+  62          static U8 idata MSTimerMode = 0;
+  63          static MSTIMER_T idata MSTimerArray[MSTIMER_NUMBER];
+  64          
+  65          
+  66          
+  67          
+  68          
+  69          
+  70          /*==================================================================
+  71          * Function      : MSTimerService
+  72          * Description   : MSTimer service, will be called in Timer2InterruptService
+  73          * Input Para    : void
+  74          * Output Para   : void
+  75          * Return Value: void
+  76          ==================================================================*/
+  77          void MSTimerService(void)
+  78          {
+  79   1              
+  80   1              U8 i = 0;
+  81   1              U8 MSTimerID_Map;
+  82   1              MSTimerID_Map = MSTimerID;
+  83   1              
+  84   1              while(MSTimerID_Map)
+  85   1              {
+  86   2                      if((MSTimerID_Map & 0x01) == 1)
+  87   2                      {
+  88   3                              if(!(--MSTimerArray[i].delay))/*倒计时*/
+  89   3                              {
+  90   4                                      if(GETBIT(MSTimerMode, i))
+  91   4                                      {
+  92   5                                              /*抛出消息，在主循环中执行*/
+  93   5                                              MSG_SEND_MSG(MSG_MSTIMER, i);
+  94   5                                              MSG_SEND_DATA((U16)(MSTimerArray[i].pCallBack));
+  95   5                                      }
+  96   4                                      else
+  97   4                                      {
+  98   5                                              /*直接执行*/
+  99   5                                              (*(MSTimerArray[i].pCallBack))();
+ 100   5                                      }
+ 101   4                                      RESETBIT(MSTimerID, i);
+ 102   4                              }
+ 103   3                      }
+ 104   2                      
+ 105   2                      MSTimerID_Map = MSTimerID_Map >> 1;
+ 106   2                      i++;
+ 107   2              }
+ 108   1      }
+ 109          
+ 110          
+ 111          /*==================================================================
+ 112          * Function      : timer_mstimer_start
+ 113          * Description   : start a virtual timer base on system timer
+ 114                                    make sure there is enough timer, that is MSTIMER_MAX is big enough
+ 115          * Input Para    : U1 Mode               : 0: pCallBack will be executed in interrupt
+ 116                                                                    1: pCallBack will be executed in message handling
+C51 COMPILER V9.01   TIMER                                                                 10/11/2014 14:44:40 PAGE 3   
+
+ 117                                    U16 Delay     : delay time, in the unit of system timer (normally it is 20ms).
+ 118                                                                    so the max delay time is 65535 * 20 ms
+ 119                                    MSTimerCallbackFunc pCallBack : callback function when MSTimer arrives
+ 120          * Output Para   : void
+ 121          * Return Value: U8      : return ID,if have no ID ,return 0xFF.
+ 122          ==================================================================*/
+ 123          U8 MSTimerStart(MSTimerHandelMode Mode, U16 Delay, Function pCallBack)
+ 124          {
+ 125   1              U8 EA_MAP;
+ 126   1              U8 i;
+ 127   1              
+ 128   1              EA_MAP = INTERRUPT_GET();
+ 129   1              INTERRUPT_DISABLE();/*关中断*/
+ 130   1              
+ 131   1              for(i = 0; i < MSTIMER_NUMBER; i++)/*查询并分配软件定时器*/
+ 132   1              {
+ 133   2      
+ 134   2                      if(!GETBIT(MSTimerID, i))       
+ 135   2                      {                       
+ 136   3                              MSTimerArray[i].delay = Delay;/*延时时间*/
+ 137   3                              MSTimerArray[i].pCallBack = pCallBack;/*回调函数*/
+ 138   3                              if(Mode)        /*运行模式*/
+ 139   3                              {
+ 140   4                                      SETBIT(MSTimerMode, i);
+ 141   4                              }
+ 142   3                              else
+ 143   3                              {
+ 144   4                                      RESETBIT(MSTimerMode, i);
+ 145   4                              }
+ 146   3                              
+ 147   3                              SETBIT(MSTimerID, i);
+ 148   3                              INTERRUPT_SET(EA_MAP);
+ 149   3                              return(i);
+ 150   3                      }
+ 151   2              }
+ 152   1              
+ 153   1              INTERRUPT_SET(EA_MAP);/*开中断*/
+ 154   1              ERRprintf("MSStartTimer\n");
+ 155   1              return 0xFF;
+ 156   1      }
+ 157          
+ 158          
+ 159          /*==================================================================
+ 160          * Function      : MSTimerStop
+ 161          * Description   : stop MSTimer
+ 162          * Input Para    : U8 Id : timer ID, should be less than MSTIMER_MAX
+ 163          * Output Para   : void
+ 164          * Return Value: void
+ 165          ==================================================================*/
+ 166          void MSTimerStop(U8 Id)
+ 167          {
+ 168   1              U8 EA_MAP;
+ 169   1              
+ 170   1              EA_MAP = INTERRUPT_GET();
+ 171   1              INTERRUPT_DISABLE();
+ 172   1              
+ 173   1              if(Id < MSTIMER_NUMBER)
+ 174   1              {
+ 175   2                      RESETBIT(MSTimerID, Id);
+ 176   2              }
+ 177   1              else
+ 178   1              {
+C51 COMPILER V9.01   TIMER                                                                 10/11/2014 14:44:40 PAGE 4   
+
+ 179   2                      ERRprintf("timer_mstimer_stop\n");
+ 180   2              }
+ 181   1              INTERRUPT_SET(EA_MAP);
+ 182   1      }
+ 183          
+ 184          
+ 185          #if 0
+              /*==================================================================
+              * Function      : timer0_process
+              * Description   : 
+              * Input Para    : 
+              * Output Para   : 
+              * Return Value: 
+              ==================================================================*/
+              void timer0_process(void)
+              {
+              
+              }
+              #endif
+ 198          
+ 199          
+ 200          #if 0
+              /*==================================================================
+              * Function      : timer1_process
+              * Description   : 
+              * Input Para    : 
+              * Output Para   : 
+              * Return Value: 
+              ==================================================================*/
+              void timer1_process(void)
+              {
+              
+              }
+              #endif
+ 213          
+ 214          
+ 215          /*==================================================================
+ 216          * Function      : system_process
+ 217          * Description   : 
+ 218          * Input Para    : 
+ 219          * Output Para   : 
+ 220          * Return Value: 
+ 221          ==================================================================*/
+ 222          void system_process(void)
+ 223          {
+ 224   1              if(MSTimerID > 0)       /*识别有无软件定时器进程*/
+ 225   1              {
+ 226   2                      MSTimerService();/*执行软件定时器进程*/
+ 227   2              }
+ 228   1              
+ 229   1              routine_process();/*运行例行任务程序*/
+ 230   1      }
+ 231          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    354    ----
+   CONSTANT SIZE    =     46    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1       9
+   IDATA SIZE       =     21    ----
+C51 COMPILER V9.01   TIMER                                                                 10/11/2014 14:44:40 PAGE 5   
+
+   BIT SIZE         =   ----       1
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

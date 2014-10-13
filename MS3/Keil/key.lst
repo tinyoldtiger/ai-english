@@ -1,0 +1,238 @@
+C51 COMPILER V9.01   KEY                                                                   10/11/2014 14:44:39 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE KEY
+OBJECT MODULE PLACED IN .\key.obj
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE ..\SourceFile\key.c BROWSE DEBUG OBJECTEXTEND PRINT(.\key.lst) OBJECT(.\key
+                    -.obj)
+
+line level    source
+
+   1          
+   2          /***************************************************************************************
+   3          ****************************************************************************************
+   4          * FILE          : key.c
+   5          * Description   : key process
+   6          *                         
+   7          * Copyright (c) 2003~2007 by WANG SHAOWEI. All Rights Reserved.
+   8          * 
+   9          * History:
+  10          * Version               Name                    Date                    Description
+  11             1.0          Wang Shaowei    2003/07/16      Initial Version (MCU System)
+  12             2.0          Wang Shaowei    2005/06/01      MS2
+  13             3.0          Wang Shaowei    2007/03/11      MS3
+  14             
+  15          ****************************************************************************************
+  16          ****************************************************************************************/
+  17          
+  18          #include "common.h"
+  19          
+  20          
+  21          
+  22          
+  23          
+  24          
+  25          
+  26          
+  27          static U1 KeyEnable = TRUE;
+  28          
+  29          
+  30          
+  31          
+  32          
+  33          /*==================================================================
+  34          * Function      : key_enable
+  35          * Description   : enable key check
+  36          * Input Para    : void
+  37          * Output Para   : void
+  38          * Return Value: void
+  39          ==================================================================*/
+  40          void key_enable(void)
+  41          {
+  42   1              KeyEnable = TRUE;
+  43   1      }
+  44          
+  45          
+  46          /*==================================================================
+  47          * Function      : key_disable
+  48          * Description   : disable key check
+  49          * Input Para    : void
+  50          * Output Para   : void
+  51          * Return Value: void
+  52          ==================================================================*/
+  53          void key_disable(void)
+  54          {
+C51 COMPILER V9.01   KEY                                                                   10/11/2014 14:44:39 PAGE 2   
+
+  55   1              KeyEnable = FALSE;
+  56   1      }
+  57          
+  58          #ifdef DP51
+  59          U8 KeyMap(U8 val)
+  60          {
+  61   1              return(val + 1);
+  62   1      }
+  63          
+  64          
+  65          
+  66          
+  67          
+  68          #ifdef KEY_MCU_STYLE
+              
+              /*==================================================================
+              * Function      : LongKeyMap
+              * Description   : 长按键值映射表
+              * Input Para    : U8 val        : key value
+              * Output Para   : void
+              * Return Value: U8              : key name
+              ==================================================================*/
+              static U8 LongKeyMap(U8 val)
+              {
+                      return(0x31 + val);             
+              }
+              
+              #endif
+  83          #endif
+  84          
+  85          
+  86          #ifdef KEY_PC_STYLE     
+  87          /*==================================================================
+  88          * Function      : key_check
+  89          * Description   : 按键检测，采用扫面方式，利用P1口，4 * 4扫描
+  90                                    采用此方式，相对中断来说，具有简单方便，
+  91                                    硬件成本低，按键数多，外接元器件少等优点
+  92          * Input Para    : void
+  93          * Output Para   : void
+  94          * Return Value: void
+  95          ==================================================================*/
+  96          void key_check(void)                    
+  97          {
+  98   1              U8 data  KeyRead;
+  99   1              /*防止按键接触不良引起的多重触发*/
+ 100   1              static U8 data KeySafeguardInterval = 0;
+ 101   1              static U8 data KeyCounter = 0;
+ 102   1              static U8 data KeySave = 0;
+ 103   1      
+ 104   1              
+ 105   1              if(!KeyEnable)  /*按键功能是否开启*/
+ 106   1                      return;
+ 107   1      
+ 108   1              KeyRead = key_read();   /*读取按键值*/
+ 109   1              
+ 110   1              
+ 111   1              if(KeyRead == ERROR)    /*按键值是否有效*/
+ 112   1              {
+ 113   2                      if(KeySafeguardInterval)/*防止按键接触不良引起的多重触发*/      
+ 114   2                      {
+ 115   3                              KeySafeguardInterval--;
+ 116   3                      }
+C51 COMPILER V9.01   KEY                                                                   10/11/2014 14:44:39 PAGE 3   
+
+ 117   2                      KeyCounter = 0;
+ 118   2                      return;
+ 119   2              }
+ 120   1      
+ 121   1              KeyCounter++;   /*当有效按键，自加*/
+ 122   1              /*当自加超过短按键门限，认为有效*/
+ 123   1              if(KeyCounter == KEY_SHORT_INTERVAL)
+ 124   1              {       
+ 125   2                      if((!KeySafeguardInterval) && (KeySave == KeyRead))
+ 126   2                      {
+ 127   3                              MSG_SEND_MSG(MSG_KEY, KeyMap(KeyRead));/*发送消息*/
+ 128   3                      }
+ 129   2                      /*设置多重触发的门限，防止按键不良的多重触发*/
+ 130   2                      KeySafeguardInterval = KEY_SAFEGUARD_INTERVAL;
+ 131   2              }
+ 132   1      
+ 133   1              
+ 134   1              if(KeyCounter == KEY_LONG_INTERVAL)
+ 135   1              {
+ 136   2                      if(KeySave == KeyRead)
+ 137   2                      {
+ 138   3                              MSG_SEND_MSG(MSG_KEY, KeyMap(KeyRead));
+ 139   3                      }
+ 140   2                      KeyCounter -= 4;
+ 141   2              }
+ 142   1      
+ 143   1              KeySave = KeyRead;
+ 144   1      
+ 145   1      }
+ 146          
+ 147          #elif defined KEY_MCU_STYLE
+              
+              /*==================================================================
+              * Function      : key_check
+              * Description   : 
+              * Input Para    : void
+              * Output Para   : void
+              * Return Value: void
+              ==================================================================*/
+              void key_check(void)                    
+              {
+                      U8 data  KeyRead;
+                      static U8 data KeySave;
+                      static U8 data KeyCounter = 0;
+              
+                      
+                      if(!KeyEnable)
+                              return;
+              
+                      KeyRead = key_read();
+                      
+                      
+                      if(KeyRead == ERROR)
+                      {
+                              if(KeyCounter == KEY_LONG_INTERVAL)
+                              {
+                                      KeyCounter = 0;
+                                      MSG_SEND_MSG(MSG_KEY, LongKeyMap(KeySave));                     
+                              }
+                              else if(KeyCounter > KEY_SHORT_INTERVAL)
+                              {
+                                      KeyCounter = 0;
+C51 COMPILER V9.01   KEY                                                                   10/11/2014 14:44:39 PAGE 4   
+
+                                      MSG_SEND_MSG(MSG_KEY, KeyMap(KeySave)); 
+                              }
+              
+                      }
+                      else
+                      {
+                              KeyCounter++;
+                              
+                              if(KeyCounter == 1)
+                              {
+                                      KeySave = KeyRead;
+                              }
+                              else if(KeyCounter == 2)
+                              {
+                                      if(KeySave != KeyRead)
+                                      {
+                                              KeyCounter = 0;
+                                      }
+                              }
+                              else if(KeyCounter > KEY_LONG_INTERVAL)
+                              {
+                                      KeyCounter = KEY_LONG_INTERVAL;
+                              }
+                      }
+              
+                      
+              }
+              
+              #endif
+ 208          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     96    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      3       1
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      1    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

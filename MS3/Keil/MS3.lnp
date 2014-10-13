@@ -1,0 +1,17 @@
+"STARTUP.obj",
+".\utility.obj",
+".\boot.obj",
+".\flash.obj",
+".\key.obj",
+".\message.obj",
+".\mmi.obj",
+".\routine.obj",
+".\rtc.obj",
+".\timer.obj",
+".\uart.obj",
+".\mcu.obj",
+".\trace.obj",
+".\mcu_ext.obj",
+".\putchar.obj" 
+TO "MS3" 
+RAMSIZE(256) 

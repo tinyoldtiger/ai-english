@@ -1,0 +1,170 @@
+C51 COMPILER V9.01   BOOT                                                                  10/11/2014 14:44:39 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE BOOT
+OBJECT MODULE PLACED IN .\boot.obj
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE ..\SourceFile\boot.c BROWSE DEBUG OBJECTEXTEND PRINT(.\boot.lst) OBJECT(.\b
+                    -oot.obj)
+
+line level    source
+
+   1          
+   2          /***************************************************************************************
+   3          ****************************************************************************************
+   4          *                                                               MCUSYSTEM3(MS3)
+   5          *
+   6          * Hardware Name : MS3
+   7          * SoftWave Name : MS3
+   8          * Complie               : Keil C Compile V7.10
+   9          * Version                       : MS3.00
+  10          * Description           : -
+  11          * Created               : 2007.3.11 by wangsw
+  12          * Modefied              : -
+  13          ****************************************************************************************
+  14          ****************************************************************************************/
+  15          
+  16          
+  17          /***************************************************************************************
+  18          ****************************************************************************************
+  19          * FILE          : boot.c
+  20          * Description   : The main program
+  21          *                         
+  22          * Copyright (c) 2003~2007 by WANG SHAOWEI. All Rights Reserved.
+  23          * 
+  24          * History:
+  25          * Version               Name                    Date                    Description
+  26             1.0          Wang Shaowei    2003/07/16      Initial Version (MCU System)
+  27             2.0          Wang Shaowei    2005/06/01      MS2
+  28             3.0          Wang Shaowei    2007/03/11      MS3
+  29             3.21         Wang Shaowei    2011/02/14      MS3.21
+  30             
+  31          ****************************************************************************************
+  32          ****************************************************************************************/
+  33          
+  34          #include <stdio.h>
+  35          #include "common.h"
+  36          
+  37          
+  38          /*==================================================================
+  39          * Function      : Task
+  40          * Description   : 演示Task程序，会周期性的执行
+  41          * Input Para    : void
+  42          * Output Para   : void
+  43          * Return Value: void
+  44          ==================================================================*/
+  45          
+  46          void Task(void)
+  47          {
+  48   1              uprintf("Hellow World\n");
+  49   1              SCH_Add_Task(MSTIMERMODE_MSG, 1020, Task);
+  50   1      }
+  51          
+  52          
+  53          
+  54          /*==================================================================
+C51 COMPILER V9.01   BOOT                                                                  10/11/2014 14:44:39 PAGE 2   
+
+  55          * Function      : init_process
+  56          * Description   : System initialize entry
+  57          * Input Para    : void
+  58          * Output Para   : void
+  59          * Return Value: void
+  60          ==================================================================*/
+  61          void init_process(void)
+  62          {
+  63   1              port_init();
+  64   1      
+  65   1              Interrupt_priority_init();
+  66   1              /*Flash 校验等，应用于系统比较严格的地方*/
+  67   1              flash_init();
+  68   1              /*等待外设准备好，比如一些继电器之类的设备*/
+  69   1              uty_delay(0xF000);
+  70   1              /*模式选择12clock与6clock切换*/
+  71   1              mode_init();
+  72   1                      
+  73   1              uart_init(UART_RATE576);
+  74   1      
+  75   1              mmi_init();
+  76   1              /*消息队列初始化*/
+  77   1              msg_init();
+  78   1              
+  79   1              rtc_soft_init(0, 0, 0);
+  80   1      
+  81   1              //Task();
+  82   1                      
+  83   1              timer2_init(TRUE, TimerInterval5H);             /*system timer,importance*/
+  84   1      
+  85   1              INTERRUPT_ENABLE();                                                                     /*enable global interrupt*/
+  86   1      }
+  87          
+  88          /*==================================================================
+  89          * Function      : main
+  90          * Description   : Program entry
+  91          * Input Para    : void
+  92          * Output Para   : void
+  93          * Return Value: void
+  94          ==================================================================*/
+  95          main(void)
+  96          {
+  97   1              U8 i = 0;
+  98   1              U16 Msg;
+  99   1      
+ 100   1              init_process(); /*程序初始化*/
+ 101   1              
+ 102   1              while(TRUE)
+ 103   1              {
+ 104   2                      MSG_GET_MSG(&Msg); /*获取消息*/
+ 105   2                      
+ 106   2                      switch(MSG_TYPE(Msg))                                           
+ 107   2                      {
+ 108   3                              case MSG_KEY:   /*按键消息*/
+ 109   3                                      KeyStore = MSG_VALUE(Msg);/*获取按键*/
+ 110   3                                      fMMIProc();  /*界面函数指针，界面入口*/
+ 111   3                                      break;
+ 112   3                                      
+ 113   3                              case MSG_RTC:/*RTC消息*/
+ 114   3                                      display_time_routine();/*软件时钟执行消息*/
+ 115   3                                      break;
+ 116   3                                      
+C51 COMPILER V9.01   BOOT                                                                  10/11/2014 14:44:39 PAGE 3   
+
+ 117   3                              case MSG_MSTIMER:/*软件定时器中断外处理消息*/
+ 118   3                                      MSG_GET_DATA(&Msg);     /*获取软件定时器的回调函数指针*/
+ 119   3                                      FUNC(Msg);/*执行回调函数*/
+ 120   3                                      break;
+ 121   3                                      
+ 122   3                              case MSG_TEST:  /*测试用*/
+ 123   3                                      //special for test
+ 124   3                                      break;
+ 125   3                                      
+ 126   3                              case MSG_NULL:
+ 127   3                                      break;
+ 128   3                                      
+ 129   3                              default:                        /*建议用于喂狗等*/
+ 130   3                                      //no msg, or error msg
+ 131   3                                      break;
+ 132   3                      }
+ 133   2              }
+ 134   1      }
+ 135          
+ 136          
+ 137          
+ 138          
+ 139          
+ 140          
+ 141          
+ 142          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    146    ----
+   CONSTANT SIZE    =     14    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,19 @@
+---- xdata Matches (4 in 4 files) ----
+Mmi.c (sourcefile):39
+MenuStruct xdata sMmiIdle;
+#endif
+Function idata fMMIProc;
+Printf.c (sourcefile):18
+static char xdata sprint_buf[100];
+void qprintf(char *fmt, ...)
+{
+Trace.c (sourcefile):24
+     va_list xdata arg_ptr;  //定义一个用来指向函数变参列表的指针arg_ptr
+
+     U16 xdata i,j,k;
+
+     va_start(arg_ptr, fmt);  //使arg_ptr指向第一个可变参数
+Type.h (sourcefile):47
+xdata			片外数据存储区(64K)，由MOVX@DPTR访问
+code				代码存储区(64K),由MOVC@DPTR访问
+

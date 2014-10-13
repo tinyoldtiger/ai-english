@@ -1,0 +1,134 @@
+C51 COMPILER V9.01   UART                                                                  10/11/2014 14:44:40 PAGE 1   
+
+
+C51 COMPILER V9.01, COMPILATION OF MODULE UART
+OBJECT MODULE PLACED IN .\uart.obj
+COMPILER INVOKED BY: d:\Keil\C51\BIN\C51.EXE ..\SourceFile\uart.c BROWSE DEBUG OBJECTEXTEND PRINT(.\uart.lst) OBJECT(.\u
+                    -art.obj)
+
+line level    source
+
+   1          
+   2          /***************************************************************************************
+   3          ****************************************************************************************
+   4          * FILE          : uart.c
+   5          * Description   : uart
+   6          *                         
+   7          * Copyright (c) 2003~2007 by WANG SHAOWEI. All Rights Reserved.
+   8          * 
+   9          * History:
+  10          * Version               Name                    Date                    Description
+  11             1.0          Wang Shaowei    2003/07/16      Initial Version (MCU System)
+  12             2.0          Wang Shaowei    2005/06/01      MS2
+  13             3.0          Wang Shaowei    2007/03/11      MS3
+  14             
+  15          ****************************************************************************************
+  16          ****************************************************************************************/
+  17          
+  18          
+  19          /*
+  20          UART所需的定时器由T1或T2提供,而不是T0
+  21          
+  22                  SCON:串行口控制寄存器
+  23                  SM0(9F),SM1(9E)
+  24                          SM0,SM1|工作方式|        说明                   |所用波特率 
+  25                             0,0     |  方式0       |同步移位寄存器|       Fosc/12                 
+  26                             0,1     |  方式1       | 10位异步收发       |由定时器控制 
+  27                     1,0     |  方式2       | 11位异步收发       |Fosc/32或Fosc/64     
+  28                     1,1     |  方式3       | 11位异步收发       |由定时器控制
+  29                 SM2(9D)          多机通信0:单机，1:多机
+  30                 REN(9C)          接收控制0:禁止接收，1:允许接收    
+  31                 TB8      (9B)            发送数据第九位
+  32                 RB8      (9A)            接收数据第九位
+  33                 TI       (99)            发送中断标记
+  34                 RI       (98)            接收中断标志
+  35          */
+  36          
+  37          #include "string.h"
+  38          #include "common.h"
+  39          
+  40          
+  41          /*==================================================================
+  42          * Function      : uart_put_char
+  43          * Description   : send U8 as char through uart
+  44                                    For example:val = 0xAB,the function will send 'A','B'
+  45          * Input Para    : U8 val        : the data to send
+  46          * Output Para   : void
+  47          * Return Value: void
+  48          ==================================================================*/
+  49          void uart_put_char(U8 val)
+  50          {
+  51   1              uart_put(uty_hex2ascii(val >> 4));
+  52   1              uart_put(uty_hex2ascii(val & 0x0F));
+  53   1              uart_put(' ');
+  54   1      }
+C51 COMPILER V9.01   UART                                                                  10/11/2014 14:44:40 PAGE 2   
+
+  55          
+  56          /*==================================================================
+  57          * Function      : uart_send_string
+  58          * Description   : send string through uart, when len is 0, detect string length automatically
+  59          * Input Para    : U8* pData     : string to send
+  60                                    U8 len                : string length, when len is 0, detect string length automatically
+  61          * Output Para   : void
+  62          * Return Value: void
+  63          ==================================================================*/
+  64          void uart_put_string(U8* pData, U8 len)
+  65          {
+  66   1              U8 i;
+  67   1              
+  68   1      
+  69   1              
+  70   1              if(len)
+  71   1              {
+  72   2                      i = len;
+  73   2                      while(i--)
+  74   2                      {
+  75   3                              uart_put(*pData++);
+  76   3                      }
+  77   2              }
+  78   1              else
+  79   1              {
+  80   2                      i = strlen(pData);
+  81   2                      while(i--)
+  82   2                      {
+  83   3                              if(*pData == 0x0A)
+  84   3                              {
+  85   4                                      uart_put(0x0D);
+  86   4                              }
+  87   3                              uart_put(*pData++);
+  88   3                      }
+  89   2              }
+  90   1      }
+  91          
+  92          
+  93          /*==================================================================
+  94          * Function      : uart_process
+  95          * Description   : The UART process
+  96          * Input Para    : void
+  97          * Output Para   : void
+  98          * Return Value: void
+  99          ==================================================================*/
+ 100          void uart_process(U8 u8)
+ 101          {
+ 102   1              MSG_SEND_MSG(MSG_KEY, u8);
+ 103   1      }
+ 104          
+ 105          
+ 106          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    137    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       5
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+C51 COMPILER V9.01   UART                                                                  10/11/2014 14:44:40 PAGE 3   
+
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

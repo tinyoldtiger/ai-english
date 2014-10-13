@@ -1,0 +1,167 @@
+C51 COMPILER V7.10   INIT                                                                  03/20/2007 22:53:06 PAGE 1   
+
+
+C51 COMPILER V7.10, COMPILATION OF MODULE INIT
+OBJECT MODULE PLACED IN .\Init.obj
+COMPILER INVOKED BY: C:\Program Files\Keil\C51\BIN\C51.EXE ..\SourceFile\Init.c BROWSE DEBUG OBJECTEXTEND PRINT(.\Init.l
+                    -st) OBJECT(.\Init.obj)
+
+line level    source
+
+   1          
+   2          
+   3          /******************************************************************************
+   4          * File Name             : init.c
+   5          * Description           : System initialize
+   6          * Created               : 2005.6.1 by wangsw
+   7          * Modefied              : -
+   8          ******************************************************************************/
+   9          
+  10          
+  11          #include <stdlib.h>
+  12          
+  13          #include "define.h"
+  14          
+  15          
+  16          
+  17          #include "uart.h"
+  18          #include "interrupt.h"
+  19          #include "timer.h"
+  20          #include "mmi.h"
+  21          
+  22          #include "init.h"
+  23          
+  24          static void PortInit(void);
+  25          
+  26          static void InterruptInit(void);
+  27          
+  28          /******************************************************************************
+  29          * Function Name : PortInit
+  30          * Parameter             : none
+  31          * Return Value  : void
+  32          * Description           : Port init
+  33          * Created               : 2005.6.1 by wangsw
+  34          * Modified              : -
+  35          ******************************************************************************/
+  36          static void PortInit(void)
+  37          {
+  38   1              P0 = 0xFF;
+  39   1              P1 = 0xFF;
+  40   1              P2 = 0xFF;
+  41   1              P3 = 0xFF;
+  42   1      }
+  43          
+  44          
+  45          /******************************************************************************
+  46          * Function Name : InterruptInit
+  47          * Parameter             : none
+  48          * Return Value  : void
+  49          * Description           : Interrupt init
+  50          * Created               : 2005.6.1 by wangsw
+  51          * Modified              : -
+  52          ******************************************************************************/
+  53          static void InterruptInit(void)
+  54          {
+C51 COMPILER V7.10   INIT                                                                  03/20/2007 22:53:06 PAGE 2   
+
+  55   1              EA = 0;         /*global interrupt*/
+  56   1              
+  57   1              EX0 = 0;                /*extern interrupt 0*/
+  58   1      
+  59   1              ET0 = 0;                /*timer interrupt 0*/
+  60   1      
+  61   1              EX1 = 0;                /*extern interrupt 1*/
+  62   1      
+  63   1              ET1 = 0;                /*timer interrupt 1*/
+  64   1      
+  65   1              ES = 0;         /*uart interrupt*/
+  66   1      
+  67   1              ET2 = 0;                /*timer interrupt 2*/
+  68   1      }
+  69          
+  70          /******************************************************************************
+  71          * Function Name : FlashCodeCRC
+  72          * Parameter             : none
+  73          * Return Value  : void
+  74          * Description           : 工控项目，尤其是对系统安全性要求非常严格
+  75                                            的地方，需要做Flash中的Code进行校验
+  76          * Created               : 2007.3.11 by wangsw
+  77          * Modified              : -
+  78          ******************************************************************************/
+  79          static void FlashCodeCRC(void)
+  80          {
+  81   1              
+  82   1      }
+  83          
+  84          /******************************************************************************
+  85          * Function Name : FlashDataCRC
+  86          * Parameter             : none
+  87          * Return Value  : void
+  88          * Description           : 工控项目，尤其是对系统安全性要求非常严格
+  89                                            的地方，需要做Flash中的Data进行校验
+  90          * Created               : 2007.3.11 by wangsw
+  91          * Modified              : -
+  92          ******************************************************************************/
+  93          static void FlashDataCRC(void)
+  94          {
+  95   1              
+  96   1      }
+  97          
+  98          
+  99          /******************************************************************************
+ 100          * Function Name : init_process
+ 101          * Parameter             : none
+ 102          * Return Value  : void
+ 103          * Description           : System initialize entry
+ 104          * Created               : 2005.6.1 by wangsw
+ 105          * Modified              : -
+ 106          ******************************************************************************/
+ 107          void init_process(void)
+ 108          {
+ 109   1              InterruptInit();
+ 110   1              
+ 111   1              PortInit();
+ 112   1              
+ 113   1              FlashCodeCRC();
+ 114   1      
+ 115   1              FlashDataCRC();
+ 116   1      
+C51 COMPILER V7.10   INIT                                                                  03/20/2007 22:53:06 PAGE 3   
+
+ 117   1              delay(0x2000);                                                  /*等待外设上电结束*/
+ 118   1      
+ 119   1      #ifdef SPEEDUP
+ 120   1              SETBIT(CKCON, 0);                                               
+ 121   1      #else
+                      RESETBIT(CKCON, 0);
+              #endif
+ 124   1      
+ 125   1              interrupt_priority_init();
+ 126   1      
+ 127   1              
+ 128   1              uart_init(UART_RATE576);                                        /*when SPEEDUP defined,the speed will twice as origin*/
+ 129   1      
+ 130   1              mmi_init();
+ 131   1              
+ 132   1              timer_timer2_init(TRUE, Timer2Interval20H);                     /*system timer,importance*/
+ 133   1      
+ 134   1              EA=1;                                                                   /*enable global interrupt*/
+ 135   1      }
+ 136          
+ 137          
+ 138          
+ 139          
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     74    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
