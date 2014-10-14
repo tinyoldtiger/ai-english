@@ -16,7 +16,7 @@
 
 #ifndef _MCU_H_
 #define _MCU_H_
-#include "reg52x2.h"
+//#include "reg52x2.h"
 
 /*运行的模式，现在很多51单片机都有6clock模式*/
 #define SPEEDUP
@@ -84,10 +84,11 @@ extern void mode_init(void);
 
 extern void uart_init(UartBaudrate BaudRate);
 
-extern void uart_put(U8 u8);
+extern void uart_put(U8 achar);
 
-void timer2_init(U1 Enable, TimerInterval eTimerInterval);
+void timer2_init(U8 Enable, TimerInterval eTimerInterval);
 
+extern void  ChipHalInit(void);
 
 #endif /*_MCU_H_*/
 

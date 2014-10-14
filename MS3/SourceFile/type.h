@@ -155,7 +155,7 @@ i,j,k一般用于函数内部的循环计数器.
 #define _TYPE_H_
 
 
-#include "reg52x2.h"
+//#include "reg52x2.h"
 
 
 #ifndef NULL
@@ -164,12 +164,12 @@ i,j,k一般用于函数内部的循环计数器.
 
 
 //类型定义
-typedef bit 			bool;
+//typedef bit 			bool;
 typedef unsigned char	byte;
 typedef unsigned int 	word;
 typedef unsigned long 	dword;
 
-typedef bit 			U1;
+//typedef bit 			U1;
 typedef unsigned char	U8;
 typedef unsigned int 	U16;
 typedef unsigned long 	U32;
@@ -186,8 +186,8 @@ typedef void (*Function)(void);
 
 
 /*定义常量*/
-#define TRUE			(U1)1
-#define FALSE		(U1)0
+#define TRUE			(U8)1
+#define FALSE		(U8)0
 
 #define ERROR		0xFF
 

@@ -12,22 +12,35 @@
 
 
 /* Includes ------------------------------------------------------------------*/
-#include "STM32Lib\\stm32f10x.h"
+#include "..\STM32_PRJ\Libraries\CMSIS\stm32f10x.h"
 
-#include "hal.h"
+//#include "hal.h"
 //#include "yd.h"
 #include "my375lib.h"
+
+
+
+
+/*********************************
+**函数名:ChipOutHalInit()
+**功能:片外硬件初始化
+*********************************/
+//void  ChipOutHalInit(void)
+//{
+//
+//}
 
 int CH375_init(void)
 {
 	u8 i;
   
   
-	ChipHalInit();//片内硬件初始化
+	//ChipHalInit();//片内硬件初始化
   
-	ChipOutHalInit();//片外硬件初始化
+	//ChipOutHalInit();//片外硬件初始化
 	
 	//系统初始化标识-让两个灯互闪
+	/*
 	for(i=0;i<4;i++)
 	{
 		SET_FILE_LED;
@@ -40,24 +53,25 @@ int CH375_init(void)
 		while(Timer1);
 	}
 	CLR_COPY_LED;
-
+	*/
 	
-	USART1_Puts("\r\n请插入U盘\r\n");
+	USART1_Puts(" 请插入U盘 ");
 	//这里要屏蔽一下串口放置额外的中断
+
 	SetUartFileDis();
 
 	//1.初始化U盘硬件
-init_u_again:	
+//init_u_again:	
 	if(InitUDisk()!=0)
 	{
-		USART1_Puts("U盘初始化失败\r\n");
-		goto init_u_again;
+		USART1_Puts(" U盘初始化失败 ");
+		//goto init_u_again;
 	}
 	else
 	{
-		USART1_Puts("U盘初始化成功,要传输文件可按下按键\r\n");
+		USART1_Puts(" U盘初始化成攻 ");//,要传输文件可按下按键\r\n");
 	}
-
+/*
 wait_key:
 	while(!GET_KEY);
 	for(i=0;i<5;i++)
@@ -90,6 +104,7 @@ wait_key:
 	USART1_Puts("\r\n文件传输结束或时限到,如果要再传文件,请按下按键\r\n");
 	//结束文件
 	goto wait_key;
+*/
 
 }
 

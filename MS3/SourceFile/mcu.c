@@ -16,8 +16,35 @@
 //this file is related with cpu//add by huihui @2014年10月11日15:30:58
 
 #include "common.h"
+#include "usart.h"
 
 
+//各个外部硬件模块的配置函数
+extern void GPIO_Configuration(void);			//GPIO
+extern void NVIC_Configuration(void);			//NVIC
+extern void RCC_Configuration(void);			//RCC
+extern void USART_Configuration(void);			//USART
+
+
+/*******************************
+**函数名:ChipHalInit()
+**功能:片内硬件初始化
+*******************************/
+//extern void WL_Debug(void);
+void  ChipHalInit(void)
+{
+	//初始化时钟源
+	RCC_Configuration();
+	  
+	//初始化中断
+	NVIC_Configuration();
+	
+	//初始化GPIO
+	GPIO_Configuration();
+	
+	//串口
+	USART_Configuration();
+}
 
 /*==================================================================
 * Function	: port_init
@@ -28,10 +55,12 @@
 ==================================================================*/
 void port_init(void)
 {
+	/*
 	P0 = 0xFF;
 	P1 = 0xFF;
 	P2 = 0xFF;
 	P3 = 0xFF;
+	*/
 }
 
 
@@ -45,6 +74,7 @@ void port_init(void)
 ==================================================================*/
 void Interrupt_priority_init(void)
 {
+	/*
 //UART
 	PS = 1;
 	SETBIT(IPH, 4);		
@@ -68,6 +98,7 @@ void Interrupt_priority_init(void)
 //INT0
 	PX0 = 0;
 	RESETBIT(IPH, 0);	
+	*/
 }
 
 
@@ -78,11 +109,13 @@ void Interrupt_priority_init(void)
 * Output Para	: 
 * Return Value: 
 ==================================================================*/
-void extern_interrupt0_init(U1 Enable, U1 EdgeEnable)
+void extern_interrupt0_init(U8 Enable, U8 EdgeEnable)
 {
-	IE0 = 0;						/*中断标记位*/
+	/*
+	IE0 = 0;						//中断标记位
 	IT0 = EdgeEnable;
 	EX0 = Enable;
+	*/
 }
 
 
@@ -93,11 +126,13 @@ void extern_interrupt0_init(U1 Enable, U1 EdgeEnable)
 * Output Para	: 
 * Return Value: 
 ==================================================================*/
-void extern_interrupt1_init(U1 Enable, U1 EdgeEnable)
+void extern_interrupt1_init(U8 Enable, U8 EdgeEnable)
 {
-	IE1 = 0;						/*中断标记位*/
+	/*
+	IE1 = 0;						//中断标记位
 	IT1 = EdgeEnable;
 	EX1 = Enable;
+	*/
 }
 
 
@@ -111,11 +146,13 @@ void extern_interrupt1_init(U1 Enable, U1 EdgeEnable)
 ==================================================================*/
 void mode_init(void)
 {
+	/*
 #ifdef SPEEDUP
 	SETBIT(CKCON, 0);						
 #else
 	RESETBIT(CKCON, 0);
 #endif
+	*/
 }
 
 
@@ -137,42 +174,43 @@ void mode_init(void)
 * Output Para	: void
 * Return Value: void
 ==================================================================*/
-void timer0_init(U1 Enable,
+void timer0_init(U8 Enable,
 				U8 WorkMode,
 				U8 TH0Data,
 				U8 TL0Data)
 {	
-	TF0 = 0;					/*定时器中断标志位*/
-
-	RESETBIT(TMOD, 3);		/*不受INT0控制*/
-
-	SETBIT(TMOD, 2);		/*定时器计数器模式,TRUE为定时器,FALSE为计数器*/
-
 	
+//	TF0 = 0;					/*定时器中断标志位*/
 
-	
-	if(WorkMode & 0x02)		/*定时/计数器0工作方式设定*/
-	{
-		SETBIT(TMOD, 1);		
-	}
-	else
-	{
-		RESETBIT(TMOD, 1);
-	}
-	
-	if(WorkMode & 0x01)
-	{
-		SETBIT(TMOD, 0);
-	}
-	else
-	{
-		RESETBIT(TMOD, 0);
-	}
-	TH0 = TH0Data;
-	TL0 = TL0Data;
+//	RESETBIT(TMOD, 3);		/*不受INT0控制*/
 
-	ET0 = (U1)1;				/*中断允许*/
-	TR0 = Enable;
+//	SETBIT(TMOD, 2);		/*定时器计数器模式,TRUE为定时器,FALSE为计数器*/
+
+//	
+
+//	
+//	if(WorkMode & 0x02)		/*定时/计数器0工作方式设定*/
+//	{
+//		SETBIT(TMOD, 1);		
+//	}
+//	else
+//	{
+//		RESETBIT(TMOD, 1);
+//	}
+//	
+//	if(WorkMode & 0x01)
+//	{
+//		SETBIT(TMOD, 0);
+//	}
+//	else
+//	{
+//		RESETBIT(TMOD, 0);
+//	}
+//	TH0 = TH0Data;
+//	TL0 = TL0Data;
+
+//	ET0 = (U1)1;				/*中断允许*/
+//	TR0 = Enable;
 
 }
 
@@ -185,26 +223,26 @@ void timer0_init(U1 Enable,
 * Output Para	: void
 * Return Value: void
 ==================================================================*/
-void timer2_init(U1 Enable, TimerInterval eTimerInterval)
+void timer2_init(U8 Enable, TimerInterval eTimerInterval)
 {
-	TH2 = eTimerInterval;
-	RCAP2H = eTimerInterval;
+//	TH2 = eTimerInterval;
+//	RCAP2H = eTimerInterval;
 
-	
-	TL2 = 0x00;
-	RCAP2L = 0x00;
-	
-	T2MOD = 0x00;
-	if(Enable)
-	{
-		T2CON = 0x04;
-	}
-	else
-	{
-		T2CON = 0x00;
-	}
+//	
+//	TL2 = 0x00;
+//	RCAP2L = 0x00;
+//	
+//	T2MOD = 0x00;
+//	if(Enable)
+//	{
+//		T2CON = 0x04;
+//	}
+//	else
+//	{
+//		T2CON = 0x00;
+//	}
 
-	ET2 = 1;
+//	ET2 = 1;
 }
 
 
@@ -217,31 +255,31 @@ void timer2_init(U1 Enable, TimerInterval eTimerInterval)
 ==================================================================*/
 void uart_init(UartBaudrate BaudRate)
 {
-	ES = 0;			/*关串行口中断*/	
+//	ES = 0;			/*关串行口中断*/	
 
-#ifdef SPEEDUP			/*串口速度加倍*/
-	RESETBIT(PCON, 7);
-#else
-	SETBIT(PCON, 7);
-#endif
+//#ifdef SPEEDUP			/*串口速度加倍*/
+//	RESETBIT(PCON, 7);
+//#else
+//	SETBIT(PCON, 7);
+//#endif
 
-	if(BaudRate == UART_RATE1152)
-	{
-		BaudRate = UART_RATE576;
-		SETBIT(PCON, 7);
-	}
+//	if(BaudRate == UART_RATE1152)
+//	{
+//		BaudRate = UART_RATE576;
+//		SETBIT(PCON, 7);
+//	}
 
-	TMOD &= 0x0F;
-	TMOD |= 0x20;
-	ET1 = 0;				/*中断无效*/
-	TH1 = BaudRate;
-	TL1 = BaudRate;
-	TR1 = 1;				/*定时器开启*/
-	SCON = 0x50;
+//	TMOD &= 0x0F;
+//	TMOD |= 0x20;
+//	ET1 = 0;				/*中断无效*/
+//	TH1 = BaudRate;
+//	TL1 = BaudRate;
+//	TR1 = 1;				/*定时器开启*/
+//	SCON = 0x50;
 
-	RI = 0;
-	
-	ES = 1;				/*串行口中断printf需要串口关闭*/
+//	RI = 0;
+//	
+//	ES = 1;				/*串行口中断printf需要串口关闭*/
 }
 
 
@@ -252,7 +290,7 @@ void uart_init(UartBaudrate BaudRate)
 * Output Para	: 
 * Return Value: 
 ==================================================================*/
-void extern_interrupt0(void) interrupt 0
+void extern_interrupt0(void) //interrupt 0
 {
 
 }
@@ -265,7 +303,7 @@ void extern_interrupt0(void) interrupt 0
 * Output Para	: 
 * Return Value: 
 ==================================================================*/
-void extern_interrupt1(void) interrupt 2
+void extern_interrupt1(void) //interrupt 2
 {
 
 }
@@ -278,19 +316,25 @@ void extern_interrupt1(void) interrupt 2
 * Output Para	: void
 * Return Value: void
 ==================================================================*/
-void uart_put(U8 u8)
+void uart_put(U8 aChar)
 {
-	U8 ES_MAP;
+		/* 发送一个字节数据到USART1 */
+		USART_SendData(TEST_USART, (uint8_t) aChar);
+		
+		/* 等待发送完毕 */
+		while (USART_GetFlagStatus(TEST_USART, USART_FLAG_TC) == RESET);		
 	
-	ES_MAP = ES;	
-	
-	ES = 0;
-	SBUF = u8;
-	while(!TI);
-	TI = 0;
-	
+//	U8 ES_MAP;
+//	
+//	ES_MAP = ES;	
+//	
+//	ES = 0;
+//	SBUF = u8;
+//	while(!TI);
+//	TI = 0;
+//	
 
-	ES = ES_MAP;
+//	ES = ES_MAP;
 }
 
 
@@ -301,13 +345,14 @@ void uart_put(U8 u8)
 * Output Para	: void
 * Return Value: void
 ==================================================================*/
-static void UartInterruptService(void) interrupt 4
+//@ stm32f10x_it.c
+static void UartInterruptService(void) //interrupt 4
 {
-	ES = 0;
-	RI = 0;
-	uart_process(SBUF);
+//	ES = 0;
+//	RI = 0;
+//	uart_process(SBUF);
 
-	ES=1;
+//	ES=1;
 }
 
 
@@ -319,7 +364,7 @@ static void UartInterruptService(void) interrupt 4
 * Output Para	: 
 * Return Value: 
 ==================================================================*/
-void Timer0InterruptService(void) interrupt 1
+void Timer0InterruptService(void) //interrupt 1
 {
 	timer0_process();
 }
@@ -334,7 +379,7 @@ void Timer0InterruptService(void) interrupt 1
 * Output Para	: 
 * Return Value: 
 ==================================================================*/
-void Timer1InterruptService(void) interrupt 3
+void Timer1InterruptService(void) //interrupt 3
 {
 
 }
@@ -348,14 +393,14 @@ void Timer1InterruptService(void) interrupt 3
 * Output Para	: void
 * Return Value: void
 ==================================================================*/
-void Timer2InterruptService(void) interrupt 5 
+void Timer2InterruptService(void) //interrupt 5 
 {
-	ET2 = 0;							/*close interrupt*/
-	TF2 = 0;							/*clear interrupt flag*/
+//	ET2 = 0;							/*close interrupt*/
+//	TF2 = 0;							/*clear interrupt flag*/
 
 	system_process();
 
-	ET2 = 1;
+	//ET2 = 1;
 }
 
 

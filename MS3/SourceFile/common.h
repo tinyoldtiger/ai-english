@@ -16,9 +16,12 @@
 
 #ifndef _COMMON_H_
 #define _COMMON_H_
-#include <stdio.h>
+
+//#include <stdio.h>
 
 #include "type.h"
+
+#include "..\STM32_PRJ\Libraries\CMSIS\stm32f10x.h"
 
 #include "message.h"
 
@@ -43,7 +46,7 @@
 
 
 #include "rtc.h"
-#include "mmi.h"
+//#include "mmi.h"
 
 
 #endif /*_COMMON_H_*/

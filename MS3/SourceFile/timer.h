@@ -28,9 +28,7 @@
 typedef enum {
 	MSTIMERMODE_INT = 0,
 	MSTIMERMODE_MSG = 1	
-};
-
-typedef U1 MSTimerHandelMode;
+}  MSTimerHandelMode;
 
 
 

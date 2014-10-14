@@ -30,7 +30,7 @@
 #define NO_DEFAULT_CH375_F_QUERY	1		/* ≤ª”√CH375FileQuery*/
 //#include "usb\\CH375HFM.h"
 #include "CH375HFM.h"
-#include "hal.h"
+//#include "hal.h"
 
 #include <string.h>
 #include <stdio.h>

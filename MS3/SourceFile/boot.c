@@ -31,7 +31,9 @@
 ****************************************************************************************
 ****************************************************************************************/
 
-#include <stdio.h>
+
+//#include <stdio.h>
+
 #include "common.h"
 
 
@@ -51,6 +53,8 @@ void Task(void)
 
 
 
+
+
 /*==================================================================
 * Function	: init_process
 * Description	: System initialize entry
@@ -60,13 +64,12 @@ void Task(void)
 ==================================================================*/
 void init_process(void)
 {
-	port_init();
 
-	LD3320_init();	  
+	//port_init();
 	
-  CH375_init();	
+	ChipHalInit();//片内硬件初始化
 	
-	Interrupt_priority_init();
+	//Interrupt_priority_init();
 	
 	/*Flash 校验等，应用于系统比较严格的地方*/
 	flash_init();
@@ -75,10 +78,14 @@ void init_process(void)
 	uty_delay(0xF000);
 	
 	/*模式选择12clock与6clock切换*/
-	mode_init();
+	//mode_init();
 		
-	uart_init(UART_RATE576);
+	//uart_init(UART_RATE576);
 
+	LD3320_init();	  
+	
+  CH375_init();	
+	
 	mmi_init();
 	/*消息队列初始化*/
 	msg_init();
@@ -99,7 +106,7 @@ void init_process(void)
 * Output Para	: void
 * Return Value: void
 ==================================================================*/
-main(void)
+int main(void)
 {
 	U8 i = 0;
 	U16 Msg;
