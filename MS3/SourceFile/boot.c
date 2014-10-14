@@ -60,33 +60,36 @@ void Task(void)
 ==================================================================*/
 void init_process(void)
 {
-//	port_init();
+	port_init();
 
-//	Interrupt_priority_init();
+	LD3320_init();	  
+	
+  CH375_init();	
+	
+	Interrupt_priority_init();
 	
 	/*Flash 校验等，应用于系统比较严格的地方*/
-//	flash_init();
+	flash_init();
 	
 	/*等待外设准备好，比如一些继电器之类的设备*/
 	uty_delay(0xF000);
 	
 	/*模式选择12clock与6clock切换*/
-	//mode_init();
+	mode_init();
 		
-//	uart_init(UART_RATE576);
+	uart_init(UART_RATE576);
 
 	mmi_init();
-	
 	/*消息队列初始化*/
 	msg_init();
 	
 	rtc_soft_init(0, 0, 0);
 
-	Task();
+	//Task();
 		
-//	timer2_init(TRUE, TimerInterval5H);		/*system timer,importance*/
+	timer2_init(TRUE, TimerInterval5H);		/*system timer,importance*/
 
-//	INTERRUPT_ENABLE();									/*enable global interrupt*/
+	INTERRUPT_ENABLE();									/*enable global interrupt*/
 }
 
 /*==================================================================
@@ -96,14 +99,14 @@ void init_process(void)
 * Output Para	: void
 * Return Value: void
 ==================================================================*/
-void boot_main(void)
+main(void)
 {
 	U8 i = 0;
 	U16 Msg;
 
 	init_process();	/*程序初始化*/
 	
-	while(1)
+	while(TRUE)
 	{
 		MSG_GET_MSG(&Msg); /*获取消息*/
 		
@@ -132,7 +135,7 @@ void boot_main(void)
 			
 			case MSG_LD_IDENTIFY:	
 				MSG_GET_DATA(&Msg);
-			  LD3320_main(MSG_VALUE(Msg));
+			  LD3320_min(MSG_VALUE(Msg));
 				break;
 			
 			default:			/*建议用于喂狗等*/

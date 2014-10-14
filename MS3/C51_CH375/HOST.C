@@ -125,63 +125,45 @@ void CH375_init( )
 		i = CH375FileOpen( );  /* 打开文件 */
 		
 		if ( i == ERR_MISS_DIR || i == ERR_MISS_FILE ) 
-		{  
-			/* 没有找到C51子目录,没有找到CH375HFT.C文件 */
-			/* 列出文件 */
+		{  /* 没有找到C51子目录,没有找到CH375HFT.C文件 */
+/* 列出文件 */
 			if ( i == ERR_MISS_DIR ) pCodeStr = "/*";  /* C51子目录不存在则列出根目录下的所有文件 */
 			else pCodeStr = "/LC*";  /* CH375HFT.C文件不存在则列出\C51子目录下的以CH375开头的文件 */
 			
 			printf( "List file %s\n", pCodeStr );
 			for ( EnumCount = 0; EnumCount < 10000; EnumCount ++ ) 
-			{  
-				/* 最多搜索前10000个文件,实际上没有限制 */
-				i = mCopyCodeStringToIRAM( mCmdParam.Open.mPathName, pCodeStr );  
-				/* 搜索文件名,*为通配符,适用于所有文件或者子目录 */
+			{  /* 最多搜索前10000个文件,实际上没有限制 */
+				i = mCopyCodeStringToIRAM( mCmdParam.Open.mPathName, pCodeStr );  /* 搜索文件名,*为通配符,适用于所有文件或者子目录 */
 				mCmdParam.Open.mPathName[ i ] = 0xFF;  /* 根据字符串长度将结束符替换为搜索的序号,从0到254,如果是0xFF即255则说明搜索序号在CH375vFileSize变量中 */
 				CH375vFileSize = EnumCount;  /* 指定搜索/枚举的序号 */
-				
 				i = CH375FileOpen( );  /* 打开文件,如果文件名中含有通配符*,则为搜索文件而不打开 */
-											/* CH375FileEnum 与 CH375FileOpen 的唯一区别是当后者返回ERR_FOUND_NAME时那么对应于前者返回ERR_SUCCESS */
+/* CH375FileEnum 与 CH375FileOpen 的唯一区别是当后者返回ERR_FOUND_NAME时那么对应于前者返回ERR_SUCCESS */
 				if ( i == ERR_MISS_FILE ) break;  /* 再也搜索不到匹配的文件,已经没有匹配的文件名 */
-				
-				
-				if ( i == ERR_FOUND_NAME ) 
-				{  /* 搜索到与通配符相匹配的文件名,文件名及其完整路径在命令缓冲区中 */
+				if ( i == ERR_FOUND_NAME ) {  /* 搜索到与通配符相匹配的文件名,文件名及其完整路径在命令缓冲区中 */
 					printf( "  match file %04d#: %s\n", (unsigned int)EnumCount, mCmdParam.Open.mPathName );  /* 显示序号和搜索到的匹配文件名或者子目录名 */
 					continue;  /* 继续搜索下一个匹配的文件名,下次搜索时序号会加1 */
 				}
-				else 
-				{
-					/* 出错 */
+				else {  /* 出错 */
 					mStopIfError( i );
 					break;
 				}
 			}
 		}
-		else 
-		{  /* 找到文件或者出错 */
+		else {  /* 找到文件或者出错 */
 			mStopIfError( i );
 			TotalCount = CH375vFileSize;  /* 准备读取总长度 */
 			printf( "从文件中读出的前%d个字符是:\n",(UINT16)TotalCount );
 			while ( TotalCount ) 
-			{  
-				/* 如果文件比较大,一次读不完,可以再调用CH375ByteRead继续读取,文件指针自动向后移动 */
-				if ( TotalCount > MAX_BYTE_IO ) 
-					c = MAX_BYTE_IO;  /* 剩余数据较多,限制单次读写的长度不能超过 sizeof( mCmdParam.ByteRead.mByteBuffer ) */
-				else 
-					c = TotalCount;  /* 最后剩余的字节数 */
-				
+			{  /* 如果文件比较大,一次读不完,可以再调用CH375ByteRead继续读取,文件指针自动向后移动 */
+				if ( TotalCount > MAX_BYTE_IO ) c = MAX_BYTE_IO;  /* 剩余数据较多,限制单次读写的长度不能超过 sizeof( mCmdParam.ByteRead.mByteBuffer ) */
+				else c = TotalCount;  /* 最后剩余的字节数 */
 				mCmdParam.ByteRead.mByteCount = c;  /* 请求读出几十字节数据 */
 				i = CH375ByteRead( );  /* 以字节为单位读取数据块,单次读写的长度不能超过MAX_BYTE_IO,第二次调用时接着刚才的向后读 */
 				mStopIfError( i );
 				TotalCount -= mCmdParam.ByteRead.mByteCount;  /* 计数,减去当前实际已经读出的字符数 */
-				
-				for ( i=0; i!=mCmdParam.ByteRead.mByteCount; i++ ) 
-					printf( "%C", mCmdParam.ByteRead.mByteBuffer[i] );  /* 显示读出的字符 */
-				
+				for ( i=0; i!=mCmdParam.ByteRead.mByteCount; i++ ) printf( "%C", mCmdParam.ByteRead.mByteBuffer[i] );  /* 显示读出的字符 */
 				if ( mCmdParam.ByteRead.mByteCount < c ) 
-				{  
-					/* 实际读出的字符数少于要求读出的字符数,说明已经到文件的结尾 */
+				{  /* 实际读出的字符数少于要求读出的字符数,说明已经到文件的结尾 */
 					printf( "\n" );
 					printf( "文件已经结束\n" );
 					break;
@@ -211,7 +193,6 @@ void CH375_init( )
 //			i = CH375FileClose( );  /* 关闭文件 */
 //			mStopIfError( i );
 		}
-
 
 		
 //关闭写操作

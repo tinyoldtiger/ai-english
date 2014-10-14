@@ -41,9 +41,8 @@ void LD3320_main(uint8 msg)
 			//		break;
 			case LD_ASR_FOUNDOK:
 					 nAsrRes = LD_GetResult( );//一次ASR识别流程结束，去取ASR识别结果										 
-					 printf("\r\n识别码:%d", nAsrRes);		
-					 prcAsrRes(nAsrRes);
-					/*			
+					 printf("\r\n识别码:%d", nAsrRes);			 		
+								
 					 switch(nAsrRes)		   			//对结果执行相关操作,客户修改
 						{
 							case CODE_LSD:					//命令“流水灯”
@@ -62,8 +61,7 @@ void LD3320_main(uint8 msg)
 								printf(" 状态 指令识别成功\r\n");
 							
 							default:break;
-						}
-					*/
+						}	
 					//nAsrStatus = LD_ASR_NONE;
 					//if (RunASR()==0)//启动一次ASR识别流程：ASR初始化，ASR添加关键词语，启动ASR运算
 					//break;
@@ -80,14 +78,6 @@ void LD3320_main(uint8 msg)
 		//开发板测试
 		//Board_text(nAsrRes );
 	//}// while
-}
-
-
-uint8 table[50][100];
-
-void prcAsrRes(uint8 nAsrRes)
-{
-	playSound(table[nAsrRes][0]);
 }
 
 static uint8 LD_AsrAddFixed(void)

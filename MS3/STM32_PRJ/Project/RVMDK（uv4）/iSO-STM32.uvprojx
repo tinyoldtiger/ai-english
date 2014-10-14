@@ -700,6 +700,21 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>STM_CH375</GroupName>
+          <Files>
+            <File>
+              <FileName>CH375HFM.LIB</FileName>
+              <FileType>4</FileType>
+              <FilePath>..\..\..\STM32_CH375\CH375HFM.LIB</FilePath>
+            </File>
+            <File>
+              <FileName>mych375.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\STM32_CH375\mych375.c</FilePath>
+            </File>
+          </Files>
+        </Group>
       </Groups>
     </Target>
   </Targets>

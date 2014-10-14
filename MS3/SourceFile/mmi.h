@@ -20,8 +20,7 @@
 #define _MMI_H_
 
 
-//extern Function idata fMMIProc;
-extern Function fMMIProc;
+extern Function idata fMMIProc;
 
 extern void mmi_init(void);
 extern void mmi_process(U8 key);

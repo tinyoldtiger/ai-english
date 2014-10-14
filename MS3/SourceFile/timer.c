@@ -58,10 +58,10 @@ typedef struct
 }MSTIMER_T;
 
 
-static U8  MSTimerID = 0;
-static U8  MSTimerMode = 0;
-//static MSTIMER_T idata MSTimerArray[MSTIMER_NUMBER];
-static MSTIMER_T  MSTimerArray[MSTIMER_NUMBER];
+static U8 data MSTimerID = 0;
+static U8 idata MSTimerMode = 0;
+static MSTIMER_T idata MSTimerArray[MSTIMER_NUMBER];
+
 
 
 

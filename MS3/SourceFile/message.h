@@ -34,7 +34,6 @@ typedef enum
 	MSG_RTC		= 0x03,					/*real time counter message*/
 	MSG_MSTIMER	= 0x04,					/*timer message*/
 	MSG_TEST		= 0x0F,					/*special for test message*/
-	MSG_LD_IDENTIFY =0x05,
 };
 
 

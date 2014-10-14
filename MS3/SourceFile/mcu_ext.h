@@ -25,7 +25,7 @@ extern U8 key_read(void);
 
 extern void led_control(U8 LedIndex);
 
-extern void LedDisplay_control(U8 boDp, U8 LedDisplayIndex, U8 value);
+extern void LedDisplay_control(U1 boDp, U8 LedDisplayIndex, U8 value);
 
 
 #endif /*_MCU_EXT_H_*/

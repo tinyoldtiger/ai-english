@@ -28,12 +28,10 @@
 ==================================================================*/
 void port_init(void)
 {
-	/*
 	P0 = 0xFF;
 	P1 = 0xFF;
 	P2 = 0xFF;
 	P3 = 0xFF;
-	*/
 }
 
 
@@ -47,9 +45,7 @@ void port_init(void)
 ==================================================================*/
 void Interrupt_priority_init(void)
 {
-/*
-
-	//UART
+//UART
 	PS = 1;
 	SETBIT(IPH, 4);		
 
@@ -72,8 +68,6 @@ void Interrupt_priority_init(void)
 //INT0
 	PX0 = 0;
 	RESETBIT(IPH, 0);	
-*/
-
 }
 
 
@@ -84,14 +78,11 @@ void Interrupt_priority_init(void)
 * Output Para	: 
 * Return Value: 
 ==================================================================*/
-void extern_interrupt0_init(U8 Enable, U8 EdgeEnable)
+void extern_interrupt0_init(U1 Enable, U1 EdgeEnable)
 {
-	
-	//IE0 = 0;						/*中断标记位*/
-	/*
+	IE0 = 0;						/*中断标记位*/
 	IT0 = EdgeEnable;
 	EX0 = Enable;
-	*/
 }
 
 
@@ -102,14 +93,11 @@ void extern_interrupt0_init(U8 Enable, U8 EdgeEnable)
 * Output Para	: 
 * Return Value: 
 ==================================================================*/
-void extern_interrupt1_init(U8 Enable, U8 EdgeEnable)
+void extern_interrupt1_init(U1 Enable, U1 EdgeEnable)
 {
-	
-	//IE1 = 0;						/*中断标记位*/
-	/*
+	IE1 = 0;						/*中断标记位*/
 	IT1 = EdgeEnable;
 	EX1 = Enable;
-	*/
 }
 
 

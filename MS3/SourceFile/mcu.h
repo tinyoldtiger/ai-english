@@ -16,7 +16,7 @@
 
 #ifndef _MCU_H_
 #define _MCU_H_
-//#include "reg52x2.h"
+#include "reg52x2.h"
 
 /*运行的模式，现在很多51单片机都有6clock模式*/
 #define SPEEDUP
@@ -72,7 +72,7 @@ typedef enum
 #define INTERRUPT_ENABLE()		INT_EA = TRUE
 #define INTERRUPT_DISABLE()		INT_EA = FALSE
 #define INTERRUPT_GET()			INT_EA
-#define INTERRUPT_SET(u1)		INT_EA = (u1>0)	
+#define INTERRUPT_SET(u1)		INT_EA = (u1)	
 
 
 
@@ -86,7 +86,7 @@ extern void uart_init(UartBaudrate BaudRate);
 
 extern void uart_put(U8 u8);
 
-void timer2_init(U8 Enable, TimerInterval eTimerInterval);
+void timer2_init(U1 Enable, TimerInterval eTimerInterval);
 
 
 #endif /*_MCU_H_*/
